@@ -1,5 +1,9 @@
 package entity.enemy;
 
-public class Enemy {
+import entity.Entity;
 
+public class Enemy extends Entity {
+
+	
+	
 }
