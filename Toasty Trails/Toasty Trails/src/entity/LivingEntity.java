@@ -1,20 +1,17 @@
 package entity;
 
-public class LivingEntity extends Entity {
+public abstract class LivingEntity extends Entity {
 	
-	private boolean alive;
-	private int velocityX;
-	private int velocityY;
-	private int weight;
-	private int maxSpeed;
+	protected boolean alive;
+	protected double velocityX;
+	protected double velocityY;
+	protected double weight;
+	protected double maxSpeed;
 	
-	public LivingEntity(boolean alive, int velX, int velY, int wt, int spd) {
+	protected LivingEntity(double velocityX, double velocityY) {
 		
-		this.alive = alive;
-		velocityX = velX;
-		velocityY = velY;
-		weight = wt;
-		maxSpeed = spd;
+		this.velocityX = velocityX;
+		this.velocityY = velocityY;
 		
 	}
 	
@@ -35,6 +32,30 @@ public class LivingEntity extends Entity {
 	public void kill() {
 		
 		alive = false;
+		
+	}
+	
+	public double getXVelocity() {
+		
+		return velocityX;
+		
+	}
+	
+	public double getYVelocity() {
+		
+		return velocityY;
+		
+	}
+	
+	public double getWeight() {
+		
+		return weight;
+		
+	}
+	
+	public double getMaxSpeed() {
+		
+		return maxSpeed;
 		
 	}
 	

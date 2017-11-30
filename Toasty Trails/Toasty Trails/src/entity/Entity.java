@@ -1,13 +1,13 @@
 package entity;
 
-public class Entity {
+public abstract class Entity {
 	
-	private String name;
-	private int hp;
-	
-	public Entity() {
-		
-	}
+	//variables
+	protected int maxHP;
+	protected String name;
+	protected int hp;
+	protected double x;
+	protected double y;
 	
 	/**
 	 * Returns the Entity's name
@@ -26,6 +26,17 @@ public class Entity {
 	public void setName(String name) {
 		
 		this.name = name;
+		
+	}
+	
+	
+	/**
+	 * Returns the Entity's maxHP
+	 * @return
+	 */
+	public int getMaxHP() {
+		
+		return maxHP;
 		
 	}
 	
@@ -51,6 +62,26 @@ public class Entity {
 		} else {
 			hp += diff;
 		}
+		
+	}
+	
+	/**
+	 * Returns the Entity's x coordinate
+	 * @return
+	 */
+	public double x() {
+		
+		return x;
+		
+	}
+	
+	/**
+	 * Returns the Entity's y coordinate
+	 * @return
+	 */
+	public double y() {
+		
+		return y;
 		
 	}
 	

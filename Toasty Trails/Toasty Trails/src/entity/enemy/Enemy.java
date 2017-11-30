@@ -1,8 +1,16 @@
 package entity.enemy;
 
-import entity.Entity;
+import entity.LivingEntity;
 
-public class Enemy extends Entity {
+public abstract class Enemy extends LivingEntity {
+
+	protected Enemy(int x, int y, double xVelocity, double yVelocity) {
+		
+		super(xVelocity, yVelocity);
+		this.x = x;
+		this.y = y;
+		
+	}
 
 	
 	

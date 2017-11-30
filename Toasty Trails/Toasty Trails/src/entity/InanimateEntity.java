@@ -1,9 +1,15 @@
 package entity;
 
-public class InanimateEntity extends Entity {
+public abstract class InanimateEntity extends Entity {
 	
-	private InanimateEntity() {
+	private boolean broken;
+	
+	public InanimateEntity() {
+		
+		
 		
 	}
+	
+	
 	
 }
