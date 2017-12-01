@@ -84,5 +84,11 @@ public abstract class Entity {
 		return y;
 		
 	}
+
+	public String toString() {
+		
+		return name;
+		
+	}
 	
 }

@@ -2,7 +2,7 @@ package entity;
 
 public abstract class LivingEntity extends Entity {
 	
-	protected boolean alive;
+	protected boolean alive = true;
 	protected double velocityX;
 	protected double velocityY;
 	protected double weight;

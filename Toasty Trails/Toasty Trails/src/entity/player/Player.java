@@ -20,7 +20,6 @@ public class Player extends LivingEntity {
 		this.form = form;
 		setStats();
 		hp = maxHP;
-		alive = true;
 		this.x = x;
 		this.y = y;
 		
