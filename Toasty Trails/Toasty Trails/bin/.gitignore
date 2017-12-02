@@ -5,3 +5,7 @@
 /gamestate/
 /main/
 /map/
+/player/
+/enemy/
+/search/
+/utility/

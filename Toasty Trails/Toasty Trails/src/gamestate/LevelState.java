@@ -2,10 +2,12 @@ package gamestate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import entity.InanimateEntity;
 import entity.enemy.Enemy;
 import map.Map;
+import utility.StringFromFileLoader;
 
 public abstract class LevelState {
 	
@@ -19,6 +21,27 @@ public abstract class LevelState {
 		this.name = name;
 		this.gravity = grav;
 		this.enemies = new ArrayList<Enemy>(Arrays.asList(enemies));
+		
+	}
+	
+	public static int[][] fileToIntArray(String file) {
+		
+		String textFile = new StringFromFileLoader(file).getFileContent();
+		String[] text = textFile.split(" ");
+		
+		int[][] mapFile = new int[7][12];
+		int idx = 0;
+		
+		for(int row = 0; row < mapFile.length; row++){
+			
+			for(int col = 0; col < mapFile[row].length; col++){
+				mapFile[row][col] = Integer.parseInt(text[idx]);
+				idx++;
+			}
+			
+		}
+		
+		return mapFile;
 		
 	}
 
@@ -64,7 +87,7 @@ public abstract class LevelState {
 		
 	}
 	
-	public ArrayList<ArrayList<InanimateEntity>> getMap() {
+	public ArrayList<List<InanimateEntity>> getMap() {
 		
 		return map.getMap();
 		

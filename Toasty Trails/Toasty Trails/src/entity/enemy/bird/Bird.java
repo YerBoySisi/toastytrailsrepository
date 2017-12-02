@@ -1,4 +1,6 @@
-package entity.enemy;
+package entity.enemy.bird;
+
+import entity.enemy.Enemy;
 
 public class Bird extends Enemy {
 	

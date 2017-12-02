@@ -2,6 +2,7 @@ package map;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import entity.Block;
 import entity.InanimateEntity;
@@ -14,20 +15,19 @@ public class Map {
 	 * grass block = 1*/
 	
 	//map elements
-	private static final InanimateEntity[] TILES = {new Block()};
+	private static final InanimateEntity[] TILES = {null, new Block()};
 	
 	//variables
 	//map
-	private ArrayList<ArrayList<InanimateEntity>> map;
+	private ArrayList<List<InanimateEntity>> map;
 	
 	public Map(int[][] map) {
 		
 		InanimateEntity[][] objectMap = convertMap(map);
-		this.map = new ArrayList<ArrayList<InanimateEntity>>();
+		this.map = new ArrayList<List<InanimateEntity>>();
 		
-		for(InanimateEntity[] col : objectMap){
-			ArrayList<InanimateEntity> o = new ArrayList<InanimateEntity>(Arrays.asList(col));
-			this.map.add(o);
+		for (InanimateEntity[] array : objectMap) {
+	        this.map.add(Arrays.asList(array));
 	    }
 		
 	}
@@ -48,7 +48,7 @@ public class Map {
 		
 	}
 	
-	public ArrayList<ArrayList<InanimateEntity>> getMap() {
+	public ArrayList<List<InanimateEntity>> getMap() {
 		
 		return map;
 		

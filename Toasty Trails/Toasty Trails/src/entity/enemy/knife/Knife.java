@@ -1,4 +1,6 @@
-package entity.enemy;
+package entity.enemy.knife;
+
+import entity.enemy.Enemy;
 
 public class Knife extends Enemy {
 	
