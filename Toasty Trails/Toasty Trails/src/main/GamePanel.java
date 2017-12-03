@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.animation.AnimationTimer;
 import javafx.application.*;
 
 import java.io.InputStream;
@@ -15,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import entity.player.Player;
+import entity.player.Player.Form;
 import gamestate.MenuState.GameMenu;
 
 public class GamePanel extends Application {
@@ -45,15 +48,32 @@ public class GamePanel extends Application {
 		menuRoot.setPrefSize(550, 450);
 		
 		menu = new GameMenu();
-		menuRoot.getChildren().add(menu);
+		menuRoot.getChildren().addAll(menu, canvas);
 		
 		scene = new Scene(menuRoot);
+		
+		Player toasty = new Player(Form.NORMAL, 250, 200, 0, 0);
 		
 		scene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
 		scene.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		
 		window.setTitle("Toasty Trails");
 		window.setScene(scene);
+		
+		final long startNanoTime = System.nanoTime();
+
+        new AnimationTimer() {
+        	
+            public void handle(long currentNanoTime) {
+            	
+            	gc.clearRect(0, 0, 550, 450);
+                double t = (currentNanoTime - startNanoTime) / 120000000.0; 
+                gc.drawImage(toasty.getSprite(t), toasty.x(), toasty.y());
+                
+            }
+            
+        }.start();
+        
 		window.show();
 		
 	}

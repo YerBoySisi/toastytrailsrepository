@@ -1,5 +1,7 @@
 package entity;
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
@@ -48,7 +50,6 @@ public abstract class Entity {
 		
 	}
 	
-	
 	/**
 	 * Returns the Entity's hp
 	 * @return
@@ -58,6 +59,7 @@ public abstract class Entity {
 		return hp;
 		
 	}
+	
 	
 	/**
 	 * Sets the Entity's hp to hp + diff
@@ -135,21 +137,61 @@ public abstract class Entity {
 		
 	}
 	
+	
 	/**
-	 * Changes the Entity's X coordinate
+	 * Changes current x and y position based on current x and y velocity and refresh time 
+	 * @param time
 	 */
-	public void moveX() {
+	public void update(double time) {
 		
-		
+		x += velocityX * time;
+		y += velocityY * time;
 		
 	}
 	
+	
 	/**
-	 * Changes the Entity's Y coordinate
+	 * Draws Entity on canvas at position (x, y)
+	 * @param gc
 	 */
-	public void moveY() {
+	public void render(GraphicsContext gc) {
 		
+		gc.drawImage(sprite, x, y);
 		
+	}
+	
+	
+	/**
+	 * Gets a rectangle of the boundaries of the Entity
+	 * @return
+	 */
+	public Rectangle2D getBoundary() {
+		
+		return new Rectangle2D(x, y, width, height);
+		
+	}
+	
+	
+	/**
+	 * Returns true if this Entity's rectangle intersects Entity e's rectangle
+	 * Returns false otherwise
+	 * @param e
+	 * @return
+	 */
+	public boolean colliding(Entity e) {
+		
+		return e.getBoundary().intersects(this.getBoundary());
+		
+	}
+	
+	
+	/**
+	 * Sets the sprite to an image with the file path of parameter path
+	 * @param path
+	 */
+	public void setSprite(String path) {
+		
+		sprite = new Image(path);
 		
 	}
 	
