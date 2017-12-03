@@ -23,7 +23,7 @@ import gamestate.MenuState.GameMenu;
 public class GamePanel extends Application {
 	
 	private Stage window;
-	private Scene scene;
+	private Scene menuscene, gamescene;
 	private Canvas canvas;
 	private GraphicsContext gc;
 	
@@ -48,17 +48,17 @@ public class GamePanel extends Application {
 		menuRoot.setPrefSize(550, 450);
 		
 		menu = new GameMenu();
-		menuRoot.getChildren().addAll(menu, canvas);
+		menuRoot.getChildren().addAll(menu);
 		
-		scene = new Scene(menuRoot);
+		menuscene = new Scene(menuRoot);
 		
 		Player toasty = new Player(Form.NORMAL, 250, 200, 0, 0);
 		
-		scene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
-		scene.setOnKeyReleased(e -> keys.put(e.getCode(), false));
+		menuscene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
+		menuscene.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		
 		window.setTitle("Toasty Trails");
-		window.setScene(scene);
+		window.setScene(menuscene);
 		
 		final long startNanoTime = System.nanoTime();
 
