@@ -15,4 +15,22 @@ public class Bird extends Enemy {
 		
 	}
 	
+	public void swoop() { 
+		
+		
+		
+	}
+	
+	public void dive() {
+		
+		
+		
+	}
+	
+	public void peck() {
+		
+		
+		
+	}
+	
 }

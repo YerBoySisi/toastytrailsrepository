@@ -2,7 +2,7 @@ package entity.enemy.knife;
 
 import entity.enemy.Enemy;
 
-public class Knife extends Enemy {
+public abstract class Knife extends Enemy {
 	
 	//constants
 	public static final String NAME = "Knife";
@@ -15,5 +15,16 @@ public class Knife extends Enemy {
 		
 	}
 	
+	public void hop() {
+		
+		
+		
+	}
+	
+	public void charge() {
+		
+		
+		
+	}
 	
 }

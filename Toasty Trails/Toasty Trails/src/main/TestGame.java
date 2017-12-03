@@ -4,7 +4,7 @@ import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
 
-public class Game {
+public class TestGame {
 
 	public static void main(String[] args) {
 		

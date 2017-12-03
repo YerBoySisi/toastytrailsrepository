@@ -3,11 +3,14 @@ package entity;
 public abstract class LivingEntity extends Entity {
 	
 	protected boolean alive = true;
-	protected double velocityX;
-	protected double velocityY;
-	protected double weight;
-	protected double maxSpeed;
+	protected double maxSpeed; //the maximum X velocity the LivingEntity can attain by moving on its own
 	
+	/**
+	 * Constructor
+	 * Sets the velocityX and velocityY of the LivingEntity
+	 * @param velocityX
+	 * @param velocityY
+	 */
 	protected LivingEntity(double velocityX, double velocityY) {
 		
 		this.velocityX = velocityX;
@@ -35,24 +38,10 @@ public abstract class LivingEntity extends Entity {
 		
 	}
 	
-	public double getXVelocity() {
-		
-		return velocityX;
-		
-	}
-	
-	public double getYVelocity() {
-		
-		return velocityY;
-		
-	}
-	
-	public double getWeight() {
-		
-		return weight;
-		
-	}
-	
+	/**
+	 * Returns the maxSpeed of the LivingEntity
+	 * @return
+	 */
 	public double getMaxSpeed() {
 		
 		return maxSpeed;
