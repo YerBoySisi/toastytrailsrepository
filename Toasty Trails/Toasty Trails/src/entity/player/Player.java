@@ -1,13 +1,15 @@
 package entity.player;
 
+import entity.Entity;
 import entity.LivingEntity;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
 public class Player extends LivingEntity {
 	
 	//constants
 	//sprite file paths
-	public final String FILE_PATH = "file:Resources/Sprites/Player/";
+	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Player/";
 	public final String[] IDLE_SPRITE = {FILE_PATH + "toastyidle.png"};
 	public final String[] RUN_SPRITE = {FILE_PATH + "toastyrun1.png", FILE_PATH + "toastyrun2.png",
 							   FILE_PATH + "toastyrun3.png", FILE_PATH + "toastyrun4.png",
@@ -25,6 +27,8 @@ public class Player extends LivingEntity {
 	public static final int MAX_HP = 100; 
 	public static final double JUMP_HEIGHT = 11.5; //maximum jump velocity achievable by Player
 	public static final double X_ELERATION = 0.22; //acceleration of Player when moving on own
+	public static final int LEFT_STANDING_BOUND = 3;
+	public static final int RIGHT_STANDING_BOUND = 26;
 	
 	
 	public enum Form {
@@ -147,6 +151,30 @@ public class Player extends LivingEntity {
 		int frame = (int)((time % (SPRITE[getAction()].length * 0.6)) / 0.6);
 		setSprite(SPRITE[getAction()][frame]);
 		return sprite;
+		
+	}
+	
+	
+	/**
+	 * Returns true if this Entity's standingBoundary intersects Entity e's rectangle
+	 * Returns false otherwise
+	 * @param e
+	 * @return
+	 */
+	public boolean standingOn(Entity e) {
+		
+		return e.getBoundary().intersects(this.getStandingBoundary());
+		
+	}
+	
+	
+	/**
+	 * Gets a rectangle of the boundaries of the Entity
+	 * @return
+	 */
+	public Rectangle2D getStandingBoundary() {
+		
+		return new Rectangle2D(x + LEFT_STANDING_BOUND, y, RIGHT_STANDING_BOUND, height);
 		
 	}
 

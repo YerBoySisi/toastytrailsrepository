@@ -273,6 +273,46 @@ public abstract class Entity {
 		
 	}
 	
+	/**
+	 * Gets the top most coordinate of the Entity
+	 * @return
+	 */
+	public double topBoundary() {
+		
+		return y;
+		
+	}
+	
+	/**
+	 * Gets the bottom most coordinate of the Entity
+	 * @return
+	 */
+	public double bottomBoundary() {
+		
+		return y + height;
+		
+	}
+	
+	/**
+	 * Gets the rightmost coordinate of the Entity
+	 * @return
+	 */
+	public double rightBoundary() {
+		
+		return y;
+		
+	}
+	
+	/**
+	 * Gets the leftmost coordinate of the Entity
+	 * @return
+	 */
+	public double leftBoundary() {
+		
+		return x + width;
+		
+	}
+	
 	
 	/**
 	 * Returns true if this Entity's rectangle intersects Entity e's rectangle

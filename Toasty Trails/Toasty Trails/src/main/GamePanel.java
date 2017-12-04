@@ -85,6 +85,7 @@ public class GamePanel extends Application {
                 movement();
                 collision();
                 
+                
                 for(int i = 0; i < blocks.length; i++) {
                 	gc.drawImage(blocks[i].getSprite(t), blocks[i].x(), blocks[i].y());
                 }
@@ -176,7 +177,6 @@ public class GamePanel extends Application {
 		}
 		
 		if(toasty.standing) {
-			toasty.setYVelocity(0);
 			toasty.jumping = false;
 		} else {
 			toasty.accerlateY(GRAVITY);
@@ -186,7 +186,7 @@ public class GamePanel extends Application {
 		
 		if(toasty.y() > canvas.getHeight() + 500) {
 			toasty.setX(250);
-			toasty.setY(250);
+			toasty.setY(-250);
 			toasty.setYVelocity(0);
 		}
 		
@@ -194,10 +194,37 @@ public class GamePanel extends Application {
 	
 	public void collision() {
 		
-		if(toasty.colliding(blocks[0]) || toasty.colliding(blocks[1]) || toasty.colliding(blocks[2]) || toasty.colliding(blocks[3]) || toasty.colliding(blocks[4]) || toasty.colliding(blocks[5]) || toasty.colliding(blocks[6]) || toasty.colliding(blocks[7]) || toasty.colliding(blocks[8]) || toasty.colliding(blocks[9])) {
-			toasty.standing = true;
-		} else {
-			toasty.standing = false;
+		for(Block blocks: block) {
+		
+			if(toasty.checkCollision(block)) {
+				
+				if(toasty.bottomBoundary() > block.topBoundary()) {
+					toasty.setY(block.y() - toasty.getHeight());
+					toasty.setYVelocity(0);
+					toasty.standing = true;
+				}
+				
+			} else {
+				
+				if(toasty.checkCollision(block)) {
+					
+					if(toasty.rightBoundary() > block.leftBoundary()) {
+						toasty.setY(block.y() - toasty.getHeight());
+						toasty.setYVelocity(0);
+						toasty.standing = true;
+					}
+					
+					if(toasty.bottomBoundary() > block.topBoundary()) {
+						toasty.setY(block.y() - toasty.getHeight());
+						toasty.setYVelocity(0);
+						toasty.standing = true;
+					}
+					
+				}
+				
+				toasty.standing = false;
+			}
+		
 		}
 		
 	}

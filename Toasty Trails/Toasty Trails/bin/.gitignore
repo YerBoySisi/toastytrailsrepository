@@ -1,14 +1,6 @@
-/toastyfall.png
-/toastyidle.png
-/toastyjump.png
-/toastyrun.png
-/toastyrun1.png
-/toastyrun2.png
-/toastyrun3.png
-/toastyrun4.png
-/toastyrun5.png
-/toastyrun6.png
+/audio/
 /entity/
-/main/
 /gamestate/
+/main/
 /map/
+/utility/
