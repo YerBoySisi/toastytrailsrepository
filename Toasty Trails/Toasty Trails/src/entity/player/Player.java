@@ -22,7 +22,9 @@ public class Player extends LivingEntity {
 	public static final int JUMPING = 2;
 	public static final int FALLING = 3;
 	
-	public static final int MAX_HP = 100;
+	public static final int MAX_HP = 100; 
+	public static final double JUMP_HEIGHT = 11.5; //maximum jump velocity achievable by Player
+	public static final double X_ELERATION = 0.22; //acceleration of Player when moving on own
 	
 	
 	public enum Form {
@@ -31,15 +33,56 @@ public class Player extends LivingEntity {
 	
 	//variables
 	private Form form;
+	private double accelerationX;
 	
 	public Player(Form form, int x, int y, double xVelocity, double yVelocity) {
 		
 		super(xVelocity, yVelocity);
 		this.form = form;
+		accelerationX = X_ELERATION;
+		maxJumpHeight = JUMP_HEIGHT;
 		setStats();
 		hp = maxHP;
 		this.x = x;
 		this.y = y;
+		
+	}
+	
+	public void accelerateX(int direction) {
+		
+		velocityX += direction * accelerationX;
+		
+	}
+	
+	public void jump() {
+		
+		velocityY += -maxJumpHeight;
+		
+	}
+	
+	public void moveX(int direction) {
+		
+		if(direction > 0) {
+			
+			if(velocityX <= maxSpeed) {
+				accelerateX(direction);
+			} else {
+				velocityX = maxSpeed;
+			}
+			
+		}
+		
+		if(direction < 0) {
+			
+			if(velocityX >= -maxSpeed) {
+				accelerateX(direction);
+			} else {
+				velocityX = -maxSpeed;
+			}
+			
+		}
+		
+		x += velocityX;
 		
 	}
 	
@@ -51,18 +94,18 @@ public class Player extends LivingEntity {
 		
 		case NORMAL :
 			name = "Toasty";
-			weight = 0.125;
-			maxSpeed = 2;
+			mass = 0.125;
+			maxSpeed = 4;
 			break;
 		case TOASTED :
 			name = "Burnt Toasty";
-			weight = 0.100;
-			maxSpeed = 3;
+			mass = 0.100;
+			maxSpeed = 5;
 			break;
 		case SOGGY :
 			name = "Soggy Toasty";
-			weight = 0.150;
-			maxSpeed = 1;
+			mass = 0.150;
+			maxSpeed = 3;
 			break;
 			
 		}

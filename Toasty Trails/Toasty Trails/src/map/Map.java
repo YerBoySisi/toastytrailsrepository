@@ -15,7 +15,7 @@ public class Map {
 	 * grass block = 1*/
 	
 	//map elements
-	private static final InanimateEntity[] TILES = {null, new Block()};
+	private static final InanimateEntity[] TILES = {null, new Block(0, 0)};
 	
 	//variables
 	//map

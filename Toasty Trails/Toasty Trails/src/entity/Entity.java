@@ -14,10 +14,13 @@ public abstract class Entity {
 	protected double x;
 	protected double y;
 	protected double velocityX;
-	protected double velocityY; 
-	protected double weight; //the acceleration of the Entity falling from the air
+	protected double velocityY;
+	protected double mass; //the acceleration of the Entity falling from the air
 	protected double width;
 	protected double height;
+	public boolean inAir;
+	public boolean walkingLeft;
+	public boolean walkingRight;
 	
 	/**
 	 * Returns the Entity's name
@@ -36,6 +39,45 @@ public abstract class Entity {
 	public void setName(String name) {
 		
 		this.name = name;
+		
+	}
+	
+	
+	/**
+	 * Sets the width of the Entity to the width of sprite
+	 */
+	public void setWidth() {
+		
+		width = sprite.getWidth();
+		
+	}
+	
+	/**
+	 * Returns the Entity's width
+	 * @return
+	 */
+	public double getWidth() {
+		
+		return width;
+		
+	}
+	
+	/**
+	 * Sets the height of the Entity to the height of sprite
+	 */
+	public void setHeight() {
+		
+		this.height = sprite.getHeight();
+		
+	}
+	
+	/**
+	 * Returns the Entity's height
+	 * @return
+	 */
+	public double getHeight() {
+		
+		return height;
 		
 	}
 	
@@ -76,12 +118,32 @@ public abstract class Entity {
 	}
 	
 	/**
+	 * Sets the Enitity's x coordinate to parameter x
+	 * @param x
+	 */
+	public void setX(double x) {
+		
+		this.x = x;
+		
+	}
+	
+	/**
 	 * Returns the Entity's x coordinate
 	 * @return
 	 */
 	public double x() {
 		
 		return x;
+		
+	}
+	
+	/**
+	 * Sets the Enitity's y coordinate to parameter y
+	 * @param y
+	 */
+	public void setY(double y) {
+		
+		this.y = y;
 		
 	}
 	
@@ -96,12 +158,52 @@ public abstract class Entity {
 	}
 	
 	/**
+	 * Returns the Entity's y coordinate
+	 * @return
+	 */
+	public void accelerateY(double grav) {
+		
+		velocityY += grav;
+		
+	}
+	
+	public void moveX() {
+		
+		x += velocityX;
+		
+	}
+	
+	public void moveY() {
+		
+		y += velocityY;
+		
+	}
+	
+	/**
+	 * Sets velocityX of Entity to v
+	 */
+	public void setXVelocity(double v) {
+		
+		velocityX = v;
+		
+	}
+	
+	/**
 	 * Returns the velocityX of the Entity
 	 * @return
 	 */
 	public double getXVelocity() {
 		
 		return velocityX;
+		
+	}
+	
+	/**
+	 * Sets velocityY of Entity to v
+	 */
+	public void setYVelocity(double v) {
+		
+		velocityY = v;
 		
 	}
 	
@@ -121,7 +223,7 @@ public abstract class Entity {
 	 */
 	public double getWeight() {
 		
-		return weight;
+		return mass;
 		
 	}
 	
@@ -192,6 +294,20 @@ public abstract class Entity {
 	public void setSprite(String path) {
 		
 		sprite = new Image(path);
+		setHeight();
+		setWidth();
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @param time
+	 * @return
+	 */
+	public Image getSprite(double time) {
+		
+		return sprite;
 		
 	}
 	
