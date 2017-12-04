@@ -14,6 +14,7 @@ import javafx.application.*;
 import java.util.HashMap;
 
 import entity.Block;
+import entity.Entity;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.MenuState.GameMenu;
@@ -63,7 +64,7 @@ public class GamePanel extends Application {
 		toasty = new Player(Form.NORMAL, 250, 200, 0, 0);
 		
 		for(int i = 0; i < blocks.length; i++) {
-			blocks[i] = new Block(32 * i + 120, 300);
+			blocks[i] = new Block(32 * i + 120, 300 + 10 * i);
 		}
 		
 		menuscene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
@@ -194,38 +195,44 @@ public class GamePanel extends Application {
 	
 	public void collision() {
 		
-		for(Block blocks: block) {
+		for(Block block: blocks) {
 		
-			if(toasty.checkCollision(block)) {
-				
-				if(toasty.bottomBoundary() > block.topBoundary()) {
-					toasty.setY(block.y() - toasty.getHeight());
+			 if(toasty.standingOn(block)) {
+						
+				if(toasty.bottomBoundary() >= block.topBoundary()) {
+						toasty.setY(block.y() - toasty.getHeight());
+						toasty.setYVelocity(0);
+						toasty.standing = true;
+				} /*else {
+				 
+				if(toasty.rightBoundary() > block.leftBoundary()) {
+					toasty.setX(block.leftBoundary() - toasty.getWidth() - 1);
+				}
+						
+				if(toasty.leftBoundary() < block.rightBoundary()) {
+					toasty.setX(block.rightBoundary() + 1);
+				}
+						
+				if(toasty.topBoundary() < block.bottomBoundary()) {
+					toasty.setY(block.y() + toasty.getHeight() + 1);
 					toasty.setYVelocity(0);
-					toasty.standing = true;
 				}
+					
+				toasty.standing = false;
 				
+				}*/
+					
 			} else {
-				
-				if(toasty.checkCollision(block)) {
-					
-					if(toasty.rightBoundary() > block.leftBoundary()) {
-						toasty.setY(block.y() - toasty.getHeight());
-						toasty.setYVelocity(0);
-						toasty.standing = true;
-					}
-					
-					if(toasty.bottomBoundary() > block.topBoundary()) {
-						toasty.setY(block.y() - toasty.getHeight());
-						toasty.setYVelocity(0);
-						toasty.standing = true;
-					}
-					
-				}
-				
 				toasty.standing = false;
 			}
 		
 		}
+		
+	}
+	
+	public boolean checkCollision(Entity a, Entity b) {
+		
+		return(a.colliding(b));
 		
 	}
 	
