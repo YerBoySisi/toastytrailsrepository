@@ -174,7 +174,7 @@ public class Player extends LivingEntity {
 	 */
 	public Rectangle2D getStandingBoundary() {
 		
-		return new Rectangle2D(x + LEFT_STANDING_BOUND, y, RIGHT_STANDING_BOUND, height);
+		return new Rectangle2D(x + LEFT_STANDING_BOUND, y + height - 2, RIGHT_STANDING_BOUND, 2);
 		
 	}
 

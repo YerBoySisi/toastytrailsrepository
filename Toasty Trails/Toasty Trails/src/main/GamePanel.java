@@ -73,26 +73,26 @@ public class GamePanel extends Application {
 		window.setTitle("Toasty Trails");
 		window.setScene(menuscene);
 		
+		
+		
 		final long startNanoTime = System.nanoTime();
-
-        new AnimationTimer() {
+		
+		new AnimationTimer() {
         	
             public void handle(long currentNanoTime) {
             	
             	gc.clearRect(0, 0, 550, 450);
-                double t = (currentNanoTime - startNanoTime) / 120000000.0; 
+                double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
                 controls();
-                movement();
                 collision();
-                
                 
                 for(int i = 0; i < blocks.length; i++) {
                 	gc.drawImage(blocks[i].getSprite(t), blocks[i].x(), blocks[i].y());
                 }
                 
                 sprites(t);
-                System.out.println(toasty.getYVelocity());
+                System.out.println(toasty.standing);
                 
             }
             
@@ -200,10 +200,11 @@ public class GamePanel extends Application {
 			 if(toasty.standingOn(block)) {
 						
 				if(toasty.bottomBoundary() >= block.topBoundary()) {
-						toasty.setY(block.y() - toasty.getHeight());
-						toasty.setYVelocity(0);
-						toasty.standing = true;
-				} /*else {
+					toasty.setY(block.y() - toasty.getHeight());
+					toasty.setYVelocity(0);
+					toasty.standing = true;
+				}/*else {
+				
 				 
 				if(toasty.rightBoundary() > block.leftBoundary()) {
 					toasty.setX(block.leftBoundary() - toasty.getWidth() - 1);
