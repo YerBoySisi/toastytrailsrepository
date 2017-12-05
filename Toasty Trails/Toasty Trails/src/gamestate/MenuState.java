@@ -215,7 +215,7 @@ public class MenuState {
 				
 			});
 			
-			InputStream is = Files.newInputStream(Paths.get("Toasty Trails/Resources/BGs/menubg.png"));
+			InputStream is = Files.newInputStream(Paths.get("Resources/BGs/menubg.png"));
 			Image img = new Image(is);
 			is.close();
 			

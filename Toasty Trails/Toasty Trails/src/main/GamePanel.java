@@ -11,6 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import javafx.application.*;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import entity.Block;
@@ -19,7 +21,7 @@ import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.MenuState.GameMenu;
 
-public class GamePanel extends Application {
+public class GamePanel extends Application{
 	
 	public static final int LEFT = -1; public static final int RIGHT = 1;
 	public static final int GRAVITY = 5;
@@ -84,8 +86,11 @@ public class GamePanel extends Application {
             	gc.clearRect(0, 0, 550, 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                controls();
+                
+                movement();
                 collision();
+                controls();
+                
                 
                 for(int i = 0; i < blocks.length; i++) {
                 	gc.drawImage(blocks[i].getSprite(t), blocks[i].x(), blocks[i].y());
@@ -134,6 +139,7 @@ public class GamePanel extends Application {
 		}
 		
 	}
+	
 	
 	public void movement() {
 		

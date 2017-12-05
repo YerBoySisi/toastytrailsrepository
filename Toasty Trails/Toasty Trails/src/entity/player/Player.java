@@ -9,7 +9,7 @@ public class Player extends LivingEntity {
 	
 	//constants
 	//sprite file paths
-	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Player/";
+	public final String FILE_PATH = "file:Resources/Sprites/Player/";
 	public final String[] IDLE_SPRITE = {FILE_PATH + "toastyidle.png"};
 	public final String[] RUN_SPRITE = {FILE_PATH + "toastyrun1.png", FILE_PATH + "toastyrun2.png",
 							   FILE_PATH + "toastyrun3.png", FILE_PATH + "toastyrun4.png",
