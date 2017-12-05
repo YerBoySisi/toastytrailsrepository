@@ -31,7 +31,7 @@ public class GamePanel extends Application{
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Player toasty;
-	private Block[] blocks = new Block[2];
+	private Block[] blocks = new Block[4];
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
@@ -66,9 +66,10 @@ public class GamePanel extends Application{
 		toasty = new Player(Form.NORMAL, 250, 250, 0, 0);
 		
 		
-		
-		blocks[1] = new Block(250, 300);
-		blocks[0] = new Block(282, 250);
+		blocks[3] = new Block(250, 300);
+		blocks[2] = new Block(214, 250);
+		blocks[1] = new Block(214, 200);
+		blocks[0] = new Block(286, 250);
 		
 		menuscene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
 		menuscene.setOnKeyReleased(e -> keys.put(e.getCode(), false));
@@ -98,7 +99,7 @@ public class GamePanel extends Application{
                 }
                 
                 sprites(t);
-                System.out.println(toasty.rightBoundary() <= blocks[0].leftBoundary() + toasty.getXVelocity());
+                System.out.println(toasty.getYVelocity());
                 
             }
             
