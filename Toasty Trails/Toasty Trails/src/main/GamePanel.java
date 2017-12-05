@@ -31,7 +31,7 @@ public class GamePanel extends Application{
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Player toasty;
-	private Block[] blocks = new Block[10];
+	private Block[] blocks = new Block[2];
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
@@ -63,11 +63,12 @@ public class GamePanel extends Application{
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
 		
-		toasty = new Player(Form.NORMAL, 250, 200, 0, 0);
+		toasty = new Player(Form.NORMAL, 250, 250, 0, 0);
 		
-		for(int i = 0; i < blocks.length; i++) {
-			blocks[i] = new Block(32 * i + 120, 300 + 10 * i);
-		}
+		
+		
+		blocks[1] = new Block(250, 300);
+		blocks[0] = new Block(282, 250);
 		
 		menuscene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
 		menuscene.setOnKeyReleased(e -> keys.put(e.getCode(), false));
@@ -97,7 +98,7 @@ public class GamePanel extends Application{
                 }
                 
                 sprites(t);
-                System.out.println(toasty.standing);
+                System.out.println(toasty.rightBoundary() <= blocks[0].leftBoundary() + toasty.getXVelocity());
                 
             }
             
@@ -203,43 +204,42 @@ public class GamePanel extends Application{
 		
 		for(Block block: blocks) {
 		
-			 if(toasty.standingOn(block)) {
-						
-				if(toasty.bottomBoundary() >= block.topBoundary()) {
-					toasty.setY(block.y() - toasty.getHeight());
-					toasty.setYVelocity(0);
-					toasty.standing = true;
-				}/*else {
+			if(toasty.colliding(block)) {
 				
-				 
-				if(toasty.rightBoundary() > block.leftBoundary()) {
-					toasty.setX(block.leftBoundary() - toasty.getWidth() - 1);
-				}
-						
-				if(toasty.leftBoundary() < block.rightBoundary()) {
-					toasty.setX(block.rightBoundary() + 1);
-				}
-						
-				if(toasty.topBoundary() < block.bottomBoundary()) {
-					toasty.setY(block.y() + toasty.getHeight() + 1);
-					toasty.setYVelocity(0);
-				}
+				 if(!toasty.standingOn(block)) {
+					 
+					if(toasty.rightBoundary() <= block.leftBoundary() + toasty.getXVelocity()) {
+						toasty.setX(block.leftBoundary() - toasty.getWidth());
+						toasty.setXVelocity(0);
+					}
+							
+					if(toasty.leftBoundary() >= block.rightBoundary() + toasty.getXVelocity()) {
+						toasty.setX(block.rightBoundary());
+						toasty.setXVelocity(0);
+					}
 					
-				toasty.standing = false;
+				}
 				
-				}*/
+				if(toasty.rightBoundary() != block.leftBoundary() && toasty.leftBoundary() != block.rightBoundary()) {
 					
+					if(toasty.bottomBoundary() <= block.topBoundary() + toasty.getYVelocity()) {
+						toasty.setY(block.y() - toasty.getHeight());
+						toasty.setYVelocity(0);
+						toasty.standing = true;
+					}
+								
+					if(toasty.topBoundary() >= block.bottomBoundary() + toasty.getYVelocity()) {
+						toasty.setY(block.y() + toasty.getHeight());
+						toasty.setYVelocity(toasty.getMass());
+					}
+					
+				}
+				
 			} else {
 				toasty.standing = false;
 			}
 		
 		}
-		
-	}
-	
-	public boolean checkCollision(Entity a, Entity b) {
-		
-		return(a.colliding(b));
 		
 	}
 	

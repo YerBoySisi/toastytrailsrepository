@@ -163,7 +163,7 @@ public class Player extends LivingEntity {
 	 */
 	public boolean standingOn(Entity e) {
 		
-		return e.getBoundary().intersects(this.getStandingBoundary());
+		return bottomBoundary() == e.topBoundary();
 		
 	}
 	

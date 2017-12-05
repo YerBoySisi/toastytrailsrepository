@@ -17,7 +17,7 @@ public class TestGame {
 		System.out.println("X Velocity: " + toasty.getXVelocity());
 		System.out.println("Y Velocity: " + toasty.getYVelocity());
 		System.out.println("Maximum Speed: " + toasty.getMaxSpeed());
-		System.out.println("Weight: " + toasty.getWeight());
+		System.out.println("Weight: " + toasty.getMass());
 		
 		System.out.println();
 		
@@ -38,7 +38,7 @@ public class TestGame {
 		System.out.println("X Velocity: " + toasty.getXVelocity());
 		System.out.println("Y Velocity: " + toasty.getYVelocity());
 		System.out.println("Maximum Speed: " + toasty.getMaxSpeed());
-		System.out.println("Weight: " + toasty.getWeight());
+		System.out.println("Weight: " + toasty.getMass());
 		
 		System.out.println();
 		System.out.println(lv1.getMap().get(0));

@@ -218,10 +218,10 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Returns the weight of the Entity
+	 * Returns the mass of the Entity
 	 * @return
 	 */
-	public double getWeight() {
+	public double getMass() {
 		
 		return mass;
 		
@@ -299,7 +299,7 @@ public abstract class Entity {
 	 */
 	public double rightBoundary() {
 		
-		return y;
+		return x + width;
 		
 	}
 	
@@ -309,7 +309,7 @@ public abstract class Entity {
 	 */
 	public double leftBoundary() {
 		
-		return x + width;
+		return x;
 		
 	}
 	
