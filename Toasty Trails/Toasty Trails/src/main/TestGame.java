@@ -40,15 +40,6 @@ public class TestGame {
 		System.out.println("Maximum Speed: " + toasty.getMaxSpeed());
 		System.out.println("Weight: " + toasty.getMass());
 		
-		System.out.println();
-		System.out.println(lv1.getMap().get(0));
-		System.out.println(lv1.getMap().get(1));
-		System.out.println(lv1.getMap().get(2));
-		System.out.println(lv1.getMap().get(3));
-		System.out.println(lv1.getMap().get(4));
-		System.out.println(lv1.getMap().get(5));
-		System.out.println(lv1.getMap().get(6));
-		
 	}
 
 }

@@ -11,16 +11,21 @@ import utility.StringFromFileLoader;
 
 public abstract class LevelState {
 	
+	private static final String MAP_FILE = "lv1map.txt";
+	
 	protected double gravity;
 	protected ArrayList<Enemy> enemies;
 	protected String name;
-	protected Map map;
+	protected ArrayList<List<InanimateEntity>> map;
+	protected int width;
 
 	public LevelState(String name, double grav, Enemy[] enemies) {
 		
 		this.name = name;
 		this.gravity = grav;
 		this.enemies = new ArrayList<Enemy>(Arrays.asList(enemies));
+		this.width = getLevelWidth();
+		this.map = new Map(fileToIntArray(MAP_FILE)).getMap();
 		
 	}
 	
@@ -87,9 +92,15 @@ public abstract class LevelState {
 		
 	}
 	
-	public ArrayList<List<InanimateEntity>> getMap() {
+	public int getLevelWidth() {
 		
-		return map.getMap();
+		int width = 0;
+		
+		for(int i = 0; i < map.get(0).size(); i++) {
+			width += map.get(0).get(i).getWidth();
+		}
+		
+		return width;
 		
 	}
 	

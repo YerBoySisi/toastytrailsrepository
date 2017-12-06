@@ -203,7 +203,7 @@ public class GamePanel extends Application{
 		
 			if(toasty.colliding(block)) {
 				
-				if(toasty.rightBoundary() <= block.leftBoundary() + 1 + toasty.getXVelocity()) {
+				if(toasty.rightBoundary() <= block.leftBoundary() + toasty.getXVelocity()) {
 					toasty.setX(block.leftBoundary() - toasty.getWidth());
 					toasty.setXVelocity(0);
 				}
