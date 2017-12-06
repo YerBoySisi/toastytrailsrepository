@@ -31,7 +31,7 @@ public class GamePanel extends Application{
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Player toasty;
-	private Block[] blocks = new Block[4];
+	private Block[] blocks = new Block[5];
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
@@ -66,17 +66,24 @@ public class GamePanel extends Application{
 		toasty = new Player(Form.NORMAL, 250, 250, 0, 0);
 		
 		
-		blocks[3] = new Block(250, 300);
-		blocks[2] = new Block(214, 250);
-		blocks[1] = new Block(214, 200);
-		blocks[0] = new Block(286, 250);
+		blocks[4] = new Block(250, 300);
+		blocks[3] = new Block(214, 250);
+		blocks[2] = new Block(214, 200);
+		blocks[1] = new Block(286, 250);
+		blocks[0] = new Block(286, 200);
 		
-		menuscene.setOnKeyPressed(e -> keys.put(e.getCode(), true));
-		menuscene.setOnKeyReleased(e -> keys.put(e.getCode(), false));
+		menuscene.setOnKeyPressed(e -> {
+			keys.put(e.getCode(), true);
+			controls();
+		});
+		
+		menuscene.setOnKeyReleased(e -> {
+			keys.put(e.getCode(), false);
+			controls();
+		});
 		
 		window.setTitle("Toasty Trails");
 		window.setScene(menuscene);
-		
 		
 		
 		final long startNanoTime = System.nanoTime();
@@ -88,10 +95,8 @@ public class GamePanel extends Application{
             	gc.clearRect(0, 0, 550, 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                
                 movement();
                 collision();
-                controls();
                 
                 
                 for(int i = 0; i < blocks.length; i++) {
@@ -99,7 +104,6 @@ public class GamePanel extends Application{
                 }
                 
                 sprites(t);
-                System.out.println(toasty.getYVelocity());
                 
             }
             
@@ -136,7 +140,7 @@ public class GamePanel extends Application{
 			toasty.walkingRight = false;
 		}
 		
-		if(isPressed(KeyCode.D) && !toasty.jumping) {
+		if(isPressed(KeyCode.D) && toasty.getYVelocity() == 0) {
 			toasty.jump();
 		}
 		
@@ -146,9 +150,7 @@ public class GamePanel extends Application{
 	public void movement() {
 		
 		if(!toasty.standing) {
-			toasty.jumping = true;
-		} else {
-			toasty.jumping = false;
+			toasty.accerlateY(GRAVITY);
 		}
 		
 		if(!toasty.walkingLeft && !toasty.walkingRight) {
@@ -185,12 +187,6 @@ public class GamePanel extends Application{
 			toasty.lastDirection = RIGHT;
 		}
 		
-		if(toasty.standing) {
-			toasty.jumping = false;
-		} else {
-			toasty.accerlateY(GRAVITY);
-		}
-		
 		toasty.moveY();
 		
 		if(toasty.y() > canvas.getHeight() + 500) {
@@ -207,39 +203,33 @@ public class GamePanel extends Application{
 		
 			if(toasty.colliding(block)) {
 				
-				 if(!toasty.standingOn(block)) {
-					 
-					if(toasty.rightBoundary() <= block.leftBoundary() + toasty.getXVelocity()) {
-						toasty.setX(block.leftBoundary() - toasty.getWidth());
-						toasty.setXVelocity(0);
-					}
-							
-					if(toasty.leftBoundary() >= block.rightBoundary() + toasty.getXVelocity()) {
-						toasty.setX(block.rightBoundary());
-						toasty.setXVelocity(0);
-					}
-					
+				if(toasty.rightBoundary() <= block.leftBoundary() + 1 + toasty.getXVelocity()) {
+					toasty.setX(block.leftBoundary() - toasty.getWidth());
+					toasty.setXVelocity(0);
 				}
-				
-				if(toasty.rightBoundary() != block.leftBoundary() && toasty.leftBoundary() != block.rightBoundary()) {
 					
-					if(toasty.bottomBoundary() <= block.topBoundary() + toasty.getYVelocity()) {
-						toasty.setY(block.y() - toasty.getHeight());
-						toasty.setYVelocity(0);
-						toasty.standing = true;
-					}
+				if(toasty.leftBoundary() >= block.rightBoundary() + toasty.getXVelocity()) {
+					toasty.setX(block.rightBoundary());
+					toasty.setXVelocity(0);
+				}
+					
+				if(toasty.bottomBoundary() <= block.topBoundary() + toasty.getYVelocity()) {
+					toasty.setY(block.y() - toasty.getHeight());
+					toasty.setYVelocity(0);
+					toasty.standing = true;
+				}
 								
-					if(toasty.topBoundary() >= block.bottomBoundary() + toasty.getYVelocity()) {
-						toasty.setY(block.y() + toasty.getHeight());
-						toasty.setYVelocity(toasty.getMass());
-					}
-					
+				if(toasty.topBoundary() >= block.bottomBoundary() + toasty.getYVelocity()) {
+					toasty.setY(block.y() + toasty.getHeight());
+					toasty.setYVelocity(toasty.getMass());
 				}
 				
 			} else {
 				toasty.standing = false;
 			}
-		
+			
+			System.out.println(toasty.bottomBoundary() == block.topBoundary());
+			
 		}
 		
 	}

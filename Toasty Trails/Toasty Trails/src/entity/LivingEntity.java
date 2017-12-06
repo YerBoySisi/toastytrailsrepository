@@ -6,7 +6,6 @@ public abstract class LivingEntity extends Entity {
 	protected double maxSpeed; //the maximum X velocity the LivingEntity can attain by moving on its own
 	protected double maxJumpHeight; //the maximum Y velocity the LivingEntity can attain by jumping on its own
 	protected double accerlationY;
-	public boolean jumping; //determines whether or not the LivingEntity is in the air
 	public boolean standing; //determines whether or not the LivingEntity is standing on ground
 	public int lastDirection;
 	

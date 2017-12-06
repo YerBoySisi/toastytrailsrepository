@@ -294,22 +294,22 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Gets the rightmost coordinate of the Entity
-	 * @return
-	 */
-	public double rightBoundary() {
-		
-		return x + width;
-		
-	}
-	
-	/**
 	 * Gets the leftmost coordinate of the Entity
 	 * @return
 	 */
 	public double leftBoundary() {
 		
 		return x;
+		
+	}
+	
+	/**
+	 * Gets the rightmost coordinate of the Entity
+	 * @return
+	 */
+	public double rightBoundary() {
+		
+		return x + width;
 		
 	}
 	
