@@ -2,6 +2,7 @@ package gamestate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import entity.InanimateEntity;
@@ -11,42 +12,45 @@ import utility.StringFromFileLoader;
 
 public abstract class LevelState {
 	
-	private static final String MAP_FILE = "lv1map.txt";
-	
+	public ArrayList<List<InanimateEntity>> map;
+	protected String name;
 	protected double gravity;
 	protected ArrayList<Enemy> enemies;
-	protected String name;
-	protected ArrayList<List<InanimateEntity>> map;
+	protected int numRows;
+	protected int numCols;
 	protected int width;
-
-	public LevelState(String name, double grav, Enemy[] enemies) {
+	
+	public LevelState(String name, double grav, Enemy[] enemies, String mapFile, int rows, int cols) {
 		
 		this.name = name;
 		this.gravity = grav;
 		this.enemies = new ArrayList<Enemy>(Arrays.asList(enemies));
-		this.width = getLevelWidth();
-		this.map = new Map(fileToIntArray(MAP_FILE)).getMap();
+		numRows = rows;
+		numCols = cols;
+		map = new Map(fileToIntArray(mapFile)).getMap();
+		setLevelWidth();
+		setCoordinates();
 		
 	}
 	
-	public static int[][] fileToIntArray(String file) {
+	public int[][] fileToIntArray(String file) {
 		
 		String textFile = new StringFromFileLoader(file).getFileContent();
 		String[] text = textFile.split(" ");
 		
-		int[][] mapFile = new int[7][12];
+		int[][] intMap = new int[numRows][numCols];
 		int idx = 0;
 		
-		for(int row = 0; row < mapFile.length; row++){
+		for(int row = 0; row < intMap.length; row++){
 			
-			for(int col = 0; col < mapFile[row].length; col++){
-				mapFile[row][col] = Integer.parseInt(text[idx]);
+			for(int col = 0; col < intMap[row].length; col++){
+				intMap[row][col] = Integer.parseInt(text[idx]);
 				idx++;
 			}
 			
 		}
 		
-		return mapFile;
+		return intMap;
 		
 	}
 
@@ -92,15 +96,34 @@ public abstract class LevelState {
 		
 	}
 	
-	public int getLevelWidth() {
-		
-		int width = 0;
+	public void setLevelWidth() {
 		
 		for(int i = 0; i < map.get(0).size(); i++) {
-			width += map.get(0).get(i).getWidth();
+			width += 32;
 		}
 		
+	}
+	
+	public int getLevelWidth() {
+		
 		return width;
+		
+	}
+	
+	public void setCoordinates() {
+		
+		for(int row = 0; row < map.size(); row++) {
+			
+        	for(int col = 0; col < map.get(row).size(); col++) {
+    			
+        		if(map.get(row).get(col) != null) {
+        			map.get(row).get(col).setX(32 * col);
+        			map.get(row).get(col).setY(32 * row);
+        		}
+            	
+    		}
+        	
+		}
 		
 	}
 	

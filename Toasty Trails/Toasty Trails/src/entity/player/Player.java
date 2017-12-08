@@ -9,7 +9,7 @@ public class Player extends LivingEntity {
 	
 	//constants
 	//sprite file paths
-	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Player/";
+	public final String FILE_PATH = "file:Resources/Sprites/Player/";
 	public final String[] IDLE_SPRITE = {FILE_PATH + "toastyidle.png"};
 	public final String[] RUN_SPRITE = {FILE_PATH + "toastyrun1.png", FILE_PATH + "toastyrun2.png",
 							   FILE_PATH + "toastyrun3.png", FILE_PATH + "toastyrun4.png",
@@ -154,19 +154,6 @@ public class Player extends LivingEntity {
 		
 	}
 	
-	
-	/**
-	 * Returns true if this Entity's standingBoundary intersects Entity e's rectangle
-	 * Returns false otherwise
-	 * @param e
-	 * @return
-	 */
-	public boolean standingOn(Entity e) {
-		
-		return getStandingBoundary().intersects(e.getBoundary());
-		
-	}
-	
 	/**
 	 * Returns true if the bottom boundary of Player is the same as the top boundary of Block
 	 * Returns false otherwise
@@ -175,7 +162,7 @@ public class Player extends LivingEntity {
 	 */
 	public boolean onTopOf(Entity e) {
 		
-		return bottomBoundary() == e.topBoundary();
+		return (int)bottomBoundary() == (int)e.topBoundary();
 		
 	}
 	

@@ -10,12 +10,8 @@ import entity.InanimateEntity;
 public class Map {
 	
 	//CONSTANTS
-	/*------Legend------
-	 * blank space = 0
-	 * grass block = 1*/
-	
-	//map elements
-	private static final InanimateEntity[] TILES = {null, new Block(0, 0)};
+	//------Legend------
+	public static final int GRASS_BLOCK = 1;
 	
 	//variables
 	//map
@@ -32,14 +28,18 @@ public class Map {
 		
 	}
 
-	private InanimateEntity[][] convertMap(int[][] map) {
+	public InanimateEntity[][] convertMap(int[][] map) {
 		
 		InanimateEntity[][] objMap = new InanimateEntity[map.length][map[0].length];
 		
 		for(int row = 0; row < map.length; row++) {
 			
 			for(int col = 0; col < map[row].length; col++) {
-				objMap[row][col] = TILES[map[row][col]];
+				
+				if(map[row][col] == GRASS_BLOCK) {
+					objMap[row][col] = new Block(0, 0);
+				}
+				
 			}
 			
 		}

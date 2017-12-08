@@ -11,14 +11,11 @@ import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import javafx.application.*;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashMap;
 
-import entity.Block;
-import entity.Entity;
 import entity.player.Player;
 import entity.player.Player.Form;
+import gamestate.LevelOne;
 import gamestate.MenuState.GameMenu;
 
 public class GamePanel extends Application{
@@ -31,7 +28,7 @@ public class GamePanel extends Application{
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Player toasty;
-	private Block[] blocks = new Block[5];
+	private LevelOne lv1;
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
@@ -65,12 +62,7 @@ public class GamePanel extends Application{
 		
 		toasty = new Player(Form.NORMAL, 250, 250, 0, 0);
 		
-		
-		blocks[4] = new Block(250, 300);
-		blocks[3] = new Block(214, 250);
-		blocks[2] = new Block(214, 200);
-		blocks[1] = new Block(286, 250);
-		blocks[0] = new Block(286, 200);
+		lv1 = new LevelOne();
 		
 		menuscene.setOnKeyPressed(e -> {
 			keys.put(e.getCode(), true);
@@ -99,9 +91,17 @@ public class GamePanel extends Application{
                 collision();
                 
                 
-                for(int i = 0; i < blocks.length; i++) {
-                	gc.drawImage(blocks[i].getSprite(t), blocks[i].x(), blocks[i].y());
-                }
+                for(int row = 0; row < lv1.map.size(); row++) {
+        			
+                	for(int col = 0; col < lv1.map.get(row).size(); col++) {
+            			
+                		if(lv1.map.get(row).get(col) != null) {
+                			gc.drawImage(lv1.map.get(row).get(col).getSprite(t), lv1.map.get(row).get(col).x(), lv1.map.get(row).get(col).y());
+                		}
+                    	
+            		}
+                	
+        		}
                 
                 sprites(t);
                 
@@ -199,37 +199,47 @@ public class GamePanel extends Application{
 	
 	public void collision() {
 		
-		for(Block block: blocks) {
-		
-			if(toasty.colliding(block)) {
-				
-				if(toasty.rightBoundary() <= block.leftBoundary() + toasty.getXVelocity()) {
-					toasty.setX(block.leftBoundary() - toasty.getWidth());
-					toasty.setXVelocity(0);
-				}
-					
-				if(toasty.leftBoundary() >= block.rightBoundary() + toasty.getXVelocity()) {
-					toasty.setX(block.rightBoundary());
-					toasty.setXVelocity(0);
-				}
-					
-				if(toasty.bottomBoundary() <= block.topBoundary() + toasty.getYVelocity()) {
-					toasty.setY(block.y() - toasty.getHeight());
-					toasty.setYVelocity(0);
-					toasty.standing = true;
-				}
-								
-				if(toasty.topBoundary() >= block.bottomBoundary() + toasty.getYVelocity()) {
-					toasty.setY(block.y() + toasty.getHeight());
-					toasty.setYVelocity(toasty.getMass());
-				}
-				
-			} else {
-				toasty.standing = false;
-			}
+		for(int row = 0; row < lv1.map.size(); row++) {
 			
-			System.out.println(toasty.bottomBoundary() == block.topBoundary());
-			
+        	for(int col = 0; col < lv1.map.get(row).size(); col++) {
+    			
+        		if(lv1.map.get(row).get(col) != null) {
+    				
+        			if(toasty.colliding(lv1.map.get(row).get(col))) {
+    					
+    					if(!toasty.onTopOf(lv1.map.get(row).get(col))) {
+    						
+	    					if(toasty.rightBoundary() <= lv1.map.get(row).get(col).leftBoundary() + toasty.getXVelocity()) {
+	    						toasty.setX(lv1.map.get(row).get(col).leftBoundary() - toasty.getWidth());
+	    						toasty.setXVelocity(0);
+	    					}
+	    						
+	    					if(toasty.leftBoundary() >= lv1.map.get(row).get(col).rightBoundary() + toasty.getXVelocity()) {
+	    						toasty.setX(lv1.map.get(row).get(col).rightBoundary());
+	    						toasty.setXVelocity(0);
+	    					}
+    					
+    					}
+    						
+    					if(toasty.bottomBoundary() <= lv1.map.get(row).get(col).topBoundary() + toasty.getYVelocity()) {
+    						toasty.setY(lv1.map.get(row).get(col).y() - toasty.getHeight());
+    						toasty.setYVelocity(0);
+    						toasty.standing = true;
+    					}
+    									
+    					if(toasty.topBoundary() >= lv1.map.get(row).get(col).bottomBoundary() + toasty.getYVelocity()) {
+    						toasty.setY(lv1.map.get(row).get(col).y() + toasty.getHeight());
+    						toasty.setYVelocity(toasty.getMass());
+    					}
+    					
+    				} else {
+    					toasty.standing = false;
+    				}
+    				
+    			}
+            	
+    		}
+        	
 		}
 		
 	}
