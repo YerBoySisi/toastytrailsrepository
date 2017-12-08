@@ -55,7 +55,7 @@ public abstract class LivingEntity extends Entity {
 	public void accerlateY(double g) {
 		
 		velocityY += mass * g;
-		
+	
 	}
 	
 }
