@@ -307,11 +307,11 @@ public class GamePanel extends Application{
 			
 		}
 		
-		if(toasty.y() < canvas.getHeight() - 196 && toasty.y() >= 141) {
+		if(toasty.y() < canvas.getHeight() - 196 && toasty.y() >= 148) {
 			cam.setTranslateY((int)toasty.y());
 		} else {
 			
-			if(toasty.y() < 141) {
+			if(toasty.y() < 148) {
 				cam.setTranslateY(148);
 			} else {
 				cam.setTranslateY(canvas.getHeight() - 198);

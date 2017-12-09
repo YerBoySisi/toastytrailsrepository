@@ -1,4 +1,6 @@
-package entity;
+package entity.platforms;
+
+import entity.InanimateEntity;
 
 public class Block extends InanimateEntity {
 	
