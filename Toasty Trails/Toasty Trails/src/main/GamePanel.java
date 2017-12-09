@@ -29,10 +29,12 @@ public class GamePanel extends Application{
 	private GraphicsContext gc;
 	private Player toasty;
 	private LevelOne lv1;
+	private Camera cam;
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
 	private GameMenu menu;
+	private double viewHeight;
 	
 	public static void main(String[] args) {
 		
@@ -44,38 +46,47 @@ public class GamePanel extends Application{
 		
 		window = primaryStage;
 		
+		lv1 = new LevelOne();
+		
 		Rectangle bg = new Rectangle(550, 450);
-		bg.setFill(Color.WHITE);
-		canvas = new Canvas(550, 450);
+		bg.setFill(Color.CYAN);
+		canvas = new Canvas(lv1.getLevelWidth(), 500);
 		gc = canvas.getGraphicsContext2D();
 		
 		Pane menuRoot = new Pane();
-		menuRoot.setPrefSize(550, 450);
+		menuRoot.setPrefSize(500, 450);
 		Pane gameRoot = new Pane();
-		menuRoot.setPrefSize(550, 450);
+		gameRoot.setPrefSize(500, 450);
 		
 		menu = new GameMenu();
-		menuRoot.getChildren().addAll(menu, bg, canvas);
+		menuRoot.getChildren().addAll(menu);
+		gameRoot.getChildren().addAll(bg, canvas);
 		
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
 		
-		toasty = new Player(Form.NORMAL, 250, 250, 0, 0);
+		toasty = new Player(Form.NORMAL, 80, -250, 0, 0);
 		
-		lv1 = new LevelOne();
 		
-		menuscene.setOnKeyPressed(e -> {
+		cam = new PerspectiveCamera(true);
+		cam.setTranslateZ(-220);
+		cam.setFarClip(500);
+		cam.setScaleX(2.5);
+		cam.setScaleY(2.5);
+		gamescene.setCamera(cam);
+		
+		gamescene.setOnKeyPressed(e -> {
 			keys.put(e.getCode(), true);
 			controls();
 		});
 		
-		menuscene.setOnKeyReleased(e -> {
+		gamescene.setOnKeyReleased(e -> {
 			keys.put(e.getCode(), false);
 			controls();
 		});
 		
 		window.setTitle("Toasty Trails");
-		window.setScene(menuscene);
+		window.setScene(gamescene);
 		
 		
 		final long startNanoTime = System.nanoTime();
@@ -87,9 +98,7 @@ public class GamePanel extends Application{
             	gc.clearRect(0, 0, 550, 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                movement();
-                collision();
-                
+                updateGame();
                 
                 for(int row = 0; row < lv1.map.size(); row++) {
         			
@@ -110,6 +119,14 @@ public class GamePanel extends Application{
         }.start();
         
 		window.show();
+		
+	}
+	
+	private void updateGame() {
+		
+		 movement();
+         collision();
+         camera();
 		
 	}
 
@@ -190,7 +207,7 @@ public class GamePanel extends Application{
 		toasty.moveY();
 		
 		if(toasty.y() > canvas.getHeight() + 500) {
-			toasty.setX(250);
+			toasty.setX(80);
 			toasty.setY(-250);
 			toasty.setYVelocity(0);
 		}
@@ -228,7 +245,7 @@ public class GamePanel extends Application{
     					}
     									
     					if(toasty.topBoundary() >= lv1.map.get(row).get(col).bottomBoundary() + toasty.getYVelocity()) {
-    						toasty.setY(lv1.map.get(row).get(col).y() + toasty.getHeight());
+    						toasty.setY(lv1.map.get(row).get(col).y() + toasty.getHeight() - 12);
     						toasty.setYVelocity(toasty.getMass());
     					}
     					
@@ -242,9 +259,18 @@ public class GamePanel extends Application{
         	
 		}
 		
+		if(toasty.leftBoundary() < 0) {
+			toasty.setX(0);
+			toasty.setXVelocity(0);
+		} else if(toasty.rightBoundary() > canvas.getWidth()) {
+			toasty.setX(canvas.getWidth() - toasty.getWidth());
+			toasty.setXVelocity(0);
+		}
+		
 	}
 	
 	public void sprites(double t) {
+
 		
 		if(!toasty.walkingLeft && !toasty.walkingRight) {
 
@@ -264,6 +290,36 @@ public class GamePanel extends Application{
 			gc.drawImage(toasty.getSprite(t), (int)toasty.x(), (int)toasty.y());
 		}
 		
+		
+	}
+	
+	
+	
+	public void camera() {
+		
+		if(toasty.x() >= 164 && toasty.x() < canvas.getWidth() - 164) {
+			cam.setTranslateX((int)toasty.x());
+		} else {
+			
+			if(toasty.x() < 164) {
+				cam.setTranslateX(164);
+			} else {
+				cam.setTranslateX(canvas.getWidth() - 164);
+			}
+			
+		}
+		
+		if(toasty.y() < canvas.getHeight() - 196 && toasty.y() >= 141) {
+			cam.setTranslateY((int)toasty.y());
+		} else {
+			
+			if(toasty.y() < 141) {
+				cam.setTranslateY(148);
+			} else {
+				cam.setTranslateY(canvas.getHeight() - 198);
+			}
+			
+		}
 		
 	}
 	
