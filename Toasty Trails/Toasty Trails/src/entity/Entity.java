@@ -3,6 +3,7 @@ package entity;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 
 public abstract class Entity {
 	
@@ -21,6 +22,7 @@ public abstract class Entity {
 	public boolean inAir;
 	public boolean walkingLeft;
 	public boolean walkingRight;
+	PixelReader px;
 	
 	/**
 	 * Returns the Entity's name
@@ -258,7 +260,7 @@ public abstract class Entity {
 	 */
 	public void render(GraphicsContext gc) {
 		
-		gc.drawImage(sprite, x, y);
+		gc.drawImage(sprite, (int)x, (int)y);
 		
 	}
 	

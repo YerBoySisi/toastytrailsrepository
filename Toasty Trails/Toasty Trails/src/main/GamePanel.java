@@ -65,8 +65,7 @@ public class GamePanel extends Application{
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
 		
-		toasty = new Player(Form.NORMAL, 80, -250, 0, 0);
-		
+		toasty = new Player(Form.NORMAL, 48, -250, 0, 0);
 		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-220);
@@ -98,21 +97,19 @@ public class GamePanel extends Application{
             	gc.clearRect(0, 0, 550, 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                updateGame();
+                updateGame(t);
                 
                 for(int row = 0; row < lv1.map.size(); row++) {
         			
                 	for(int col = 0; col < lv1.map.get(row).size(); col++) {
             			
                 		if(lv1.map.get(row).get(col) != null) {
-                			gc.drawImage(lv1.map.get(row).get(col).getSprite(t), lv1.map.get(row).get(col).x(), lv1.map.get(row).get(col).y());
+                			lv1.map.get(row).get(col).render(gc);
                 		}
                     	
             		}
                 	
         		}
-                
-                sprites(t);
                 
             }
             
@@ -122,10 +119,11 @@ public class GamePanel extends Application{
 		
 	}
 	
-	private void updateGame() {
+	private void updateGame( double t) {
 		
 		 movement();
          collision();
+         renderToasty(t);
          camera();
 		
 	}
@@ -207,7 +205,7 @@ public class GamePanel extends Application{
 		toasty.moveY();
 		
 		if(toasty.y() > canvas.getHeight() + 500) {
-			toasty.setX(80);
+			toasty.setX(48);
 			toasty.setY(-250);
 			toasty.setYVelocity(0);
 		}
@@ -269,7 +267,7 @@ public class GamePanel extends Application{
 		
 	}
 	
-	public void sprites(double t) {
+	public void renderToasty(double t) {
 
 		
 		if(!toasty.walkingLeft && !toasty.walkingRight) {
