@@ -108,7 +108,7 @@ public class Player extends LivingEntity {
 			break;
 		case SOGGY :
 			name = "Soggy";
-			mass = 0.150;
+			mass = 0.175;
 			maxSpeed = 2;
 			break;
 			
