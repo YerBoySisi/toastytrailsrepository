@@ -13,7 +13,6 @@ import javafx.application.*;
 
 import java.util.HashMap;
 
-import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
@@ -29,14 +28,12 @@ public class GamePanel extends Application{
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Player toasty;
-	private Butterknife butterknife;
 	private LevelOne lv1;
 	private Camera cam;
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
 	private GameMenu menu;
-	private double viewHeight;
 	
 	public static void main(String[] args) {
 		
