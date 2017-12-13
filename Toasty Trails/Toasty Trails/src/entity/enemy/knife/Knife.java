@@ -17,12 +17,22 @@ public abstract class Knife extends Enemy {
 	
 	public void hop() {
 		
-		
+		velocityY -= 5;
 		
 	}
 	
-	public void charge() {
+	public void charge(int direction) {
 		
+		velocityX += direction * 10;
+		
+	}
+	
+	public void chargeAttack(int direction) {
+		
+		setXVelocity(0);
+		hop();
+		while(velocityY != 0) {}
+		charge(direction);
 		
 		
 	}

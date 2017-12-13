@@ -13,22 +13,24 @@ import javafx.application.*;
 
 import java.util.HashMap;
 
+import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
+import gamestate.LevelState;
 import gamestate.MenuState.GameMenu;
 
 public class GamePanel extends Application{
 	
 	public static final int LEFT = -1; public static final int RIGHT = 1;
 	public static final int GRAVITY = 5;
+	public static final LevelState[] lvls = {new LevelOne()};
 	
 	private Stage window;
 	private Scene menuscene, gamescene;
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Player toasty;
-	private LevelOne lv1;
 	private Camera cam;
 	
 	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
@@ -45,11 +47,9 @@ public class GamePanel extends Application{
 		
 		window = primaryStage;
 		
-		lv1 = new LevelOne();
-		
 		Rectangle bg = new Rectangle(550, 450);
 		bg.setFill(Color.CYAN);
-		canvas = new Canvas(lv1.getLevelWidth(), 500);
+		canvas = new Canvas(lvls[0].getLevelWidth(), 500);
 		gc = canvas.getGraphicsContext2D();
 		
 		Pane menuRoot = new Pane();
@@ -98,12 +98,12 @@ public class GamePanel extends Application{
                 
                 updateGame(t);
                 
-                for(int row = 0; row < lv1.map.size(); row++) {
+                for(int row = 0; row < lvls[0].map.size(); row++) {
         			
-                	for(int col = 0; col < lv1.map.get(row).size(); col++) {
+                	for(int col = 0; col < lvls[0].map.get(row).size(); col++) {
             			
-                		if(lv1.map.get(row).get(col) != null) {
-                			lv1.map.get(row).get(col).render(gc);
+                		if(lvls[0].map.get(row).get(col) != null) {
+                			lvls[0].map.get(row).get(col).render(gc);
                 		}
                     	
             		}
@@ -213,36 +213,36 @@ public class GamePanel extends Application{
 	
 	public void collision() {
 		
-		for(int row = 0; row < lv1.map.size(); row++) {
+		for(int row = 0; row < lvls[0].map.size(); row++) {
 			
-        	for(int col = 0; col < lv1.map.get(row).size(); col++) {
+        	for(int col = 0; col < lvls[0].map.get(row).size(); col++) {
     			
-        		if(lv1.map.get(row).get(col) != null) {
+        		if(lvls[0].map.get(row).get(col) != null) {
     				
-        			if(toasty.colliding(lv1.map.get(row).get(col))) {
+        			if(toasty.colliding(lvls[0].map.get(row).get(col))) {
     					
-    					if(!toasty.onTopOf(lv1.map.get(row).get(col))) {
+    					if(!toasty.onTopOf(lvls[0].map.get(row).get(col))) {
     						
-	    					if(toasty.rightBoundary() <= lv1.map.get(row).get(col).leftBoundary() + toasty.getXVelocity()) {
-	    						toasty.setX(lv1.map.get(row).get(col).leftBoundary() - toasty.getWidth());
+	    					if(toasty.rightBoundary() <= lvls[0].map.get(row).get(col).leftBoundary() + toasty.getXVelocity()) {
+	    						toasty.setX(lvls[0].map.get(row).get(col).leftBoundary() - toasty.getWidth());
 	    						toasty.setXVelocity(0);
 	    					}
 	    						
-	    					if(toasty.leftBoundary() >= lv1.map.get(row).get(col).rightBoundary() + toasty.getXVelocity()) {
-	    						toasty.setX(lv1.map.get(row).get(col).rightBoundary());
+	    					if(toasty.leftBoundary() >= lvls[0].map.get(row).get(col).rightBoundary() + toasty.getXVelocity()) {
+	    						toasty.setX(lvls[0].map.get(row).get(col).rightBoundary());
 	    						toasty.setXVelocity(0);
 	    					}
     					
     					}
     						
-    					if(toasty.bottomBoundary() <= lv1.map.get(row).get(col).topBoundary() + toasty.getYVelocity()) {
-    						toasty.setY(lv1.map.get(row).get(col).y() - toasty.getHeight());
+    					if(toasty.bottomBoundary() <= lvls[0].map.get(row).get(col).topBoundary() + toasty.getYVelocity()) {
+    						toasty.setY(lvls[0].map.get(row).get(col).y() - toasty.getHeight());
     						toasty.setYVelocity(0);
     						toasty.standing = true;
     					}
     									
-    					if(toasty.topBoundary() >= lv1.map.get(row).get(col).bottomBoundary() + toasty.getYVelocity()) {
-    						toasty.setY(lv1.map.get(row).get(col).y() + toasty.getHeight() - 12);
+    					if(toasty.topBoundary() >= lvls[0].map.get(row).get(col).bottomBoundary() + toasty.getYVelocity()) {
+    						toasty.setY(lvls[0].map.get(row).get(col).y() + toasty.getHeight() - 12);
     						toasty.setYVelocity(toasty.getMass());
     					}
     					
