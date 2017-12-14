@@ -6,7 +6,7 @@ public class Butterknife extends Knife {
 	
 	//constants
 	//sprite file paths
-	public final String FILE_PATH = "file:Resources/Sprites/Enemies/Butterknife/";
+	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Enemies/Butterknife/";
 	public final String[] IDLE_SPRITE = {FILE_PATH + "butterknifeidle.png"};
 	public final String[] WALK_SPRITE = {FILE_PATH + "butterknifeidle.png"};
 	public final String[] CHARGE_SPRITE = {FILE_PATH + "butterknifeidle.png"};
