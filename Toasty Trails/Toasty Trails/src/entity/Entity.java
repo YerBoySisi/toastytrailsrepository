@@ -22,7 +22,7 @@ public abstract class Entity {
 	public boolean inAir;
 	public boolean walkingLeft;
 	public boolean walkingRight;
-	PixelReader px;
+	protected PixelReader px;
 	
 	/**
 	 * Returns the Entity's name
@@ -243,22 +243,21 @@ public abstract class Entity {
 	
 	
 	/**
-	 * Changes current x and y position based on current x and y velocity and refresh time 
-	 * @param time
-	 */
-	public void update(double time) {
-		
-		x += velocityX * time;
-		y += velocityY * time;
-		
-	}
-	
-	
-	/**
 	 * Draws Entity on canvas at position (x, y)
 	 * @param gc
 	 */
 	public void render(GraphicsContext gc) {
+		
+		gc.drawImage(sprite, (int)x, (int)y);
+		
+	}
+	
+	/**
+	 * Draws Entity on canvas at position (x, y)
+	 * @param t
+	 * @param gc
+	 */
+	public void render(double t, GraphicsContext gc) {
 		
 		gc.drawImage(sprite, (int)x, (int)y);
 		

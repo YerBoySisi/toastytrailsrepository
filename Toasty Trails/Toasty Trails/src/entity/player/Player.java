@@ -3,11 +3,14 @@ package entity.player;
 import entity.Entity;
 import entity.LivingEntity;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Player extends LivingEntity {
 	
 	//constants
+	public static final int LEFT = -1; public static final int RIGHT = 1;
+	
 	//sprite file paths
 	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Player/";
 	public final String[] IDLE_SPRITE = {FILE_PATH + "toastyidle.png"};
@@ -174,6 +177,31 @@ public class Player extends LivingEntity {
 	public Rectangle2D getStandingBoundary() {
 		
 		return new Rectangle2D(x + LEFT_STANDING_BOUND, y, RIGHT_STANDING_BOUND, height);
+		
+	}
+	
+	@Override
+	public void render(double t, GraphicsContext gc) {
+
+		
+		if(!walkingLeft && !walkingRight) {
+
+			if(lastDirection == LEFT) {
+				gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+			} else {
+				gc.drawImage(getSprite(t), (int)x(), (int)y());
+			}
+			
+		}
+		
+		if(walkingLeft) {
+			gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+		}
+		
+		if(walkingRight) {
+			gc.drawImage(getSprite(t), (int)x(), (int)y());
+		}
+		
 		
 	}
 

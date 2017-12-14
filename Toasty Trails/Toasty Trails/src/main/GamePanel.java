@@ -118,11 +118,11 @@ public class GamePanel extends Application{
 		
 	}
 	
-	private void updateGame( double t) {
+	private void updateGame(double t) {
 		
 		 movement();
          collision();
-         renderToasty(t);
+         toasty.render(t, gc);
          camera();
 		
 	}
@@ -163,9 +163,7 @@ public class GamePanel extends Application{
 	
 	public void movement() {
 		
-		if(!toasty.standing) {
-			toasty.accerlateY(GRAVITY);
-		}
+		toasty.accerlateY(GRAVITY);
 		
 		if(!toasty.walkingLeft && !toasty.walkingRight) {
 			
@@ -265,32 +263,6 @@ public class GamePanel extends Application{
 		}
 		
 	}
-	
-	public void renderToasty(double t) {
-
-		
-		if(!toasty.walkingLeft && !toasty.walkingRight) {
-
-			if(toasty.lastDirection == LEFT) {
-				gc.drawImage(toasty.getSprite(t), (int)toasty.x() + toasty.getWidth(), (int)toasty.y(), -toasty.getWidth(), toasty.getHeight());
-			} else {
-				gc.drawImage(toasty.getSprite(t), (int)toasty.x(), (int)toasty.y());
-			}
-			
-		}
-		
-		if(toasty.walkingLeft) {
-			gc.drawImage(toasty.getSprite(t), (int)toasty.x() + toasty.getWidth(), (int)toasty.y(), -toasty.getWidth(), toasty.getHeight());
-		}
-		
-		if(toasty.walkingRight) {
-			gc.drawImage(toasty.getSprite(t), (int)toasty.x(), (int)toasty.y());
-		}
-		
-		
-	}
-	
-	
 	
 	public void camera() {
 		
