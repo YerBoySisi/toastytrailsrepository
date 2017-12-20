@@ -34,6 +34,11 @@ public abstract class Knife extends Enemy {
 		while(velocityY != 0) {}
 		charge(direction);
 		
+	}
+	
+	public void performChargeAttack(int direction) {
+		
+		new Thread(() -> chargeAttack(direction)).start();
 		
 	}
 	
