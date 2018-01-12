@@ -23,7 +23,7 @@ public abstract class Knife extends Enemy {
 	
 	public void charge(int direction) {
 		
-		velocityX += direction * 10;
+		velocityX += direction * 9;
 		
 	}
 	
