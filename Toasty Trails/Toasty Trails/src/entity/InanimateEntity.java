@@ -2,7 +2,7 @@ package entity;
 
 public abstract class InanimateEntity extends Entity {
 	
-	private boolean broken;
+	//private boolean broken;
 	
 	public InanimateEntity() {
 		

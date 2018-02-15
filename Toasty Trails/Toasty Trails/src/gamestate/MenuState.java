@@ -17,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import main.GamePanel;
 
 public class MenuState {
 	
@@ -50,7 +51,7 @@ public class MenuState {
 			final double transtime2 = .75;
 			
 			//goes to playmenu
-			MenuButton play = new MenuButton("PLAY");
+			MenuButton play = new MenuButton(" PLAY");
 			play.setOnMouseClicked(e -> {
 				getChildren().add(playmenu);
 				
@@ -69,18 +70,18 @@ public class MenuState {
 				});
 			});
 			
-			MenuButton resume = new MenuButton("CONTINUE");
+			MenuButton resume = new MenuButton(" CONTINUE");
 			resume.setOnMouseClicked(e -> {
-				
+				GamePanel.setState(1);
 			});
 			
-			MenuButton newGame = new MenuButton("NEW GAME");
+			MenuButton newGame = new MenuButton(" NEW GAME");
 			newGame.setOnMouseClicked(e -> {
-				
+				GamePanel.setState(1);
 			});
 			
 			//returns to mainmenu
-			MenuButton playmenuback = new MenuButton("BACK");
+			MenuButton playmenuback = new MenuButton(" BACK");
 			playmenuback.setOnMouseClicked(e -> {
 				
 				getChildren().add(mainmenu);
@@ -106,7 +107,7 @@ public class MenuState {
 			
 			
 			//goes to settingsmenu
-			MenuButton settings = new MenuButton("SETTINGS");
+			MenuButton settings = new MenuButton(" SETTINGS");
 			settings.setOnMouseClicked(e -> {
 				
 				getChildren().addAll(settingsmenu);
@@ -127,13 +128,13 @@ public class MenuState {
 				
 			});
 			
-			MenuButton sound = new MenuButton("SOUND");
+			MenuButton sound = new MenuButton(" SOUND");
 			sound.setOnMouseClicked(e -> {
 				
 			});
 			
 			//returns to mainmenu
-			MenuButton soundmenuback = new MenuButton("BACK");
+			MenuButton soundmenuback = new MenuButton(" BACK");
 			soundmenuback.setOnMouseClicked(e -> {
 				
 				getChildren().add(mainmenu);
@@ -158,7 +159,7 @@ public class MenuState {
 			
 			
 			
-			MenuButton credits = new MenuButton("CREDITS");
+			MenuButton credits = new MenuButton(" CREDITS");
 			credits.setOnMouseClicked(e -> {
 				
 			});
@@ -166,7 +167,7 @@ public class MenuState {
 			
 			
 			//goes to exitmenu
-			MenuButton exit = new MenuButton("EXIT");
+			MenuButton exit = new MenuButton(" EXIT");
 			exit.setOnMouseClicked(e -> {
 
 				getChildren().addAll(exitmenu);
@@ -187,13 +188,13 @@ public class MenuState {
 
 			});
 			
-			MenuButton exitgame = new MenuButton("EXIT GAME");
+			MenuButton exitgame = new MenuButton(" EXIT GAME");
 			exitgame.setOnMouseClicked(e -> {
 				closeProgram();
 			});
 			
 			//returns to mainmenu
-			MenuButton exitmenuback = new MenuButton("BACK");
+			MenuButton exitmenuback = new MenuButton(" BACK");
 			exitmenuback.setOnMouseClicked(e -> {
 				
 				getChildren().add(mainmenu);
@@ -253,7 +254,7 @@ public class MenuState {
 				bg.setTranslateX(5);
 				text.setTranslateX(5);
 				bg.setFill(Color.RED);
-				text.setFill(Color.WHITE);
+				text.setFill(Color.YELLOW);
 			});
 			
 			setOnMouseExited(e -> {

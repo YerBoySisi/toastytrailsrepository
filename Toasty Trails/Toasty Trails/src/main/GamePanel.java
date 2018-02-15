@@ -13,7 +13,6 @@ import javafx.application.*;
 
 import java.util.HashMap;
 
-import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
@@ -22,20 +21,22 @@ import gamestate.MenuState.GameMenu;
 
 public class GamePanel extends Application{
 	
+	private static int state;
+	
 	public static final int LEFT = -1; public static final int RIGHT = 1;
 	public static final int GRAVITY = 5;
 	public static final LevelState[] lvls = {new LevelOne()};
 	
-	private Stage window;
-	private Scene menuscene, gamescene;
-	private Canvas canvas;
-	private GraphicsContext gc;
-	private Player toasty;
-	private Camera cam;
+	private static Stage window;
+	private static Scene menuscene, gamescene;
+	private static Canvas canvas;
+	private static GraphicsContext gc;
+	private static Player toasty;
+	private static Camera cam;
 	
-	private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
+	private static HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
-	private GameMenu menu;
+	private static GameMenu menu;
 	
 	public static void main(String[] args) {
 		
@@ -84,7 +85,7 @@ public class GamePanel extends Application{
 		});
 		
 		window.setTitle("Toasty Trails");
-		window.setScene(gamescene);
+		window.setScene(menuscene);
 		
 		
 		final long startNanoTime = System.nanoTime();
@@ -92,6 +93,10 @@ public class GamePanel extends Application{
 		new AnimationTimer() {
         	
             public void handle(long currentNanoTime) {
+            	
+            	if(state == 1) {
+            		window.setScene(gamescene);
+            	}
             	
             	gc.clearRect(0, 0, 550, 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
@@ -289,6 +294,12 @@ public class GamePanel extends Application{
 			}
 			
 		}
+		
+	}
+	
+	public static void setState(int n) {
+		
+		state = n;
 		
 	}
 
