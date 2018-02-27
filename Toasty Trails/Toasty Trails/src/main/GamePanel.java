@@ -87,15 +87,21 @@ public class GamePanel extends Application{
 		window.setTitle("Toasty Trails");
 		window.setScene(menuscene);
 		
-		
 		final long startNanoTime = System.nanoTime();
 		
 		new AnimationTimer() {
         	
             public void handle(long currentNanoTime) {
             	
-            	if(state == 1) {
+            	switch(state) {
+            	
+            	case 0:
+            		window.setScene(menuscene);
+            		break;
+            	case 1:
             		window.setScene(gamescene);
+            		break;
+            		
             	}
             	
             	gc.clearRect(0, 0, 550, 450);
