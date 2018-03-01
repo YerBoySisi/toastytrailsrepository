@@ -135,10 +135,14 @@ public class Player extends LivingEntity {
 		
 		int action = 0;
 		
-		if(velocityX == 0 && velocityY == 0) {
+		if(velocityX == 0 && velocityY == 0 && !walkingRight && !walkingLeft) {
 			action = STANDING;
-		} else if(velocityX != 0 && velocityY == 0) {
-			action = RUNNING;
+		} else if(velocityY == 0) {
+			
+			if(walkingRight || walkingLeft || velocityX != 0) {
+				action = RUNNING;
+			}
+			
 		} else if(velocityY < 0) {
 			action = JUMPING;
 		} else if(velocityY > 0) {

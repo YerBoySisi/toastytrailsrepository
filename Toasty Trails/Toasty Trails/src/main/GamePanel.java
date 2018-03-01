@@ -48,7 +48,7 @@ public class GamePanel extends Application{
 		
 		window = primaryStage;
 		
-		Rectangle bg = new Rectangle(550, 450);
+		Rectangle bg = new Rectangle(lvls[0].getLevelWidth(), 450);
 		bg.setFill(Color.CYAN);
 		canvas = new Canvas(lvls[0].getLevelWidth(), 500);
 		gc = canvas.getGraphicsContext2D();
@@ -96,15 +96,23 @@ public class GamePanel extends Application{
             	switch(state) {
             	
             	case 0:
-            		window.setScene(menuscene);
+            		
+            		if(!window.getScene().equals(menuscene)) {
+            			window.setScene(menuscene);
+            		}
+            		
             		break;
             	case 1:
-            		window.setScene(gamescene);
+            		
+            		if(!window.getScene().equals(gamescene)) {
+            			window.setScene(gamescene);
+            		}
+            		
             		break;
             		
             	}
             	
-            	gc.clearRect(0, 0, 550, 450);
+            	gc.clearRect(0, 0, lvls[0].getLevelWidth(), 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
                 updateGame(t);
@@ -232,25 +240,31 @@ public class GamePanel extends Application{
     					
     					if(!toasty.onTopOf(lvls[0].map.get(row).get(col))) {
     						
-	    					if(toasty.rightBoundary() <= lvls[0].map.get(row).get(col).leftBoundary() + toasty.getXVelocity()) {
+    						//walking into left of block
+	    					if(toasty.rightBoundary() - 5 <= lvls[0].map.get(row).get(col).leftBoundary() + toasty.getXVelocity()) {
 	    						toasty.setX(lvls[0].map.get(row).get(col).leftBoundary() - toasty.getWidth());
 	    						toasty.setXVelocity(0);
 	    					}
-	    						
+	    					
+	    					//walking into right of block
 	    					if(toasty.leftBoundary() >= lvls[0].map.get(row).get(col).rightBoundary() + toasty.getXVelocity()) {
 	    						toasty.setX(lvls[0].map.get(row).get(col).rightBoundary());
 	    						toasty.setXVelocity(0);
 	    					}
     					
     					}
-    						
+    					
+    					//standing on top of block
     					if(toasty.bottomBoundary() <= lvls[0].map.get(row).get(col).topBoundary() + toasty.getYVelocity()) {
     						toasty.setY(lvls[0].map.get(row).get(col).y() - toasty.getHeight());
     						toasty.setYVelocity(0);
     						toasty.standing = true;
     					}
     									
-    					if(toasty.topBoundary() >= lvls[0].map.get(row).get(col).bottomBoundary() + toasty.getYVelocity()) {
+    					//jumping into bottom of block
+    					if(toasty.topBoundary() >= lvls[0].map.get(row).get(col).bottomBoundary() + toasty.getYVelocity() &&
+    					   toasty.rightBoundary() < lvls[0].map.get(row).get(col).leftBoundary() || 
+    					   toasty.leftBoundary() > lvls[0].map.get(row).get(col).rightBoundary()) {
     						toasty.setY(lvls[0].map.get(row).get(col).y() + toasty.getHeight() - 12);
     						toasty.setYVelocity(toasty.getMass());
     					}
