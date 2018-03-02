@@ -19,11 +19,23 @@ public abstract class LevelState {
 	protected int numCols;
 	protected int width;
 	
-	public LevelState(String name, double grav, Enemy[] enemies, String mapFile, int rows, int cols) {
+	protected int initialPlayerX;
+	protected int initialPlayerY;
+	protected int initialPlayerXVelocity;
+	protected int initialPlayerYVelocity;
+	
+	public LevelState(String name, int x, int y, int xVel, int yVel, double grav, Enemy[] enemies, String mapFile, int rows, int cols) {
 		
 		this.name = name;
-		this.gravity = grav;
+		
+		initialPlayerX = x;
+		initialPlayerY = y;
+		initialPlayerXVelocity = xVel;
+		initialPlayerYVelocity = yVel;
+		gravity = grav;
+		
 		this.enemies = new ArrayList<Enemy>(Arrays.asList(enemies));
+		
 		numRows = rows;
 		numCols = cols;
 		map = new Map(fileToIntArray(mapFile)).getMap();
@@ -50,6 +62,42 @@ public abstract class LevelState {
 		}
 		
 		return intMap;
+		
+	}
+
+	/**
+	 * @return the initialPlayerX
+	 */
+	public int getInitialPlayerX() {
+		
+		return initialPlayerX;
+		
+	}
+
+	/**
+	 * @return the initialPlayerY
+	 */
+	public int getInitialPlayerY() {
+		
+		return initialPlayerY;
+		
+	}
+
+	/**
+	 * @return the initialPlayerXVelocity
+	 */
+	public int getInitialPlayerXVelocity() {
+		
+		return initialPlayerXVelocity;
+		
+	}
+
+	/**
+	 * @return the initialPlayerYVelocity
+	 */
+	public int getInitialPlayerYVelocity() {
+		
+		return initialPlayerYVelocity;
 		
 	}
 
