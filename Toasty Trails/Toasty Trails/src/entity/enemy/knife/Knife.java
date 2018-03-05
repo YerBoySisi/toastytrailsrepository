@@ -42,12 +42,6 @@ public abstract class Knife extends Enemy {
 		
 	}
 	
-	public void slowDown(int direction) {
-		
-		velocityX = 0;
-		
-	}
-	
 	public void chargeAttack(int direction) {
 		
 		new Thread(() -> {

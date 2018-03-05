@@ -11,8 +11,8 @@ public class Butterknife extends Knife {
 	//sprite file paths
 	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Enemies/Butterknife/";
 	public final String[] IDLE_SPRITE = {FILE_PATH + "butterknifeidle.png"};
-	public final String[] WALK_SPRITE = {FILE_PATH + "butterknifeidle.png"};
-	public final String[] CHARGE_SPRITE = {FILE_PATH + "butterknifeidle.png"};
+	public final String[] WALK_SPRITE = {FILE_PATH + "butterknifejump.png"};
+	public final String[] CHARGE_SPRITE = {FILE_PATH + "butterknifejump.png"};
 	public final String[] HOP_SPRITE = {FILE_PATH + "butterknifejump.png"};
 	public final String[][] SPRITE = {IDLE_SPRITE, WALK_SPRITE, CHARGE_SPRITE, HOP_SPRITE};
 	
@@ -35,7 +35,7 @@ public class Butterknife extends Knife {
 		
 		if(velocityX == 0 && velocityY == 0) {
 			action = STANDING;
-		} else if(velocityX > 0 && velocityX < 10) {
+		} else if(velocityX < 10) {
 			action = WALKING;
 		} else if(velocityX > 10) {
 			action = CHARGING;
@@ -57,7 +57,6 @@ public class Butterknife extends Knife {
 
 	public void render(double t, GraphicsContext gc) {
 
-		
 		if(!walkingLeft && !walkingRight) {
 
 			if(lastDirection == LEFT) {
@@ -75,7 +74,6 @@ public class Butterknife extends Knife {
 		if(walkingRight) {
 			gc.drawImage(getSprite(t), (int)x(), (int)y());
 		}
-		
 		
 	}
 

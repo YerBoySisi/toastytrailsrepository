@@ -22,7 +22,7 @@ public abstract class Entity {
 	public boolean inAir;
 	public boolean walkingLeft;
 	public boolean walkingRight;
-	protected PixelReader px;
+	public boolean invincible;
 	
 	/**
 	 * Returns the Entity's name
@@ -324,6 +324,32 @@ public abstract class Entity {
 	public boolean colliding(Entity e) {
 		
 		return e.getBoundary().intersects(this.getBoundary());
+		
+	}
+	
+	/**
+	 * Returns true if this Entity's rectangle intersects Entity e's rectangle
+	 * Returns false otherwise
+	 * @param e
+	 * @return
+	 */
+
+	public void activateInvincibility() {
+		
+		new Thread(() -> {
+			
+			invincible = true;
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			invincible = false;
+			
+		}).start();
+		
 		
 	}
 	

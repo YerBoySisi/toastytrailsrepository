@@ -13,7 +13,6 @@ import javafx.application.*;
 
 import java.util.HashMap;
 
-import entity.enemy.Enemy;
 import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
@@ -99,6 +98,8 @@ public class GamePanel extends Application{
 		new AnimationTimer() {
         	
             public void handle(long currentNanoTime) {
+            	
+            	System.out.println(toasty.getHP());
             	
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
@@ -211,7 +212,7 @@ public class GamePanel extends Application{
 		
 		toasty.moveY();
 		
-		if(toasty.y() > canvas.getHeight() + 500) {
+		if(toasty.y() > canvas.getHeight() + 500 || toasty.getHP() == 0) {
 			spawnPlayer();
 		}
 		
@@ -327,15 +328,14 @@ public class GamePanel extends Application{
     			window.setTitle(lvls[currentLvl].getName());
     			window.setScene(gamescene);
     			spawnPlayer();
-    			bknife = new Butterknife(72, 0, 0, 0);
+    			bknife = new Butterknife(200, 0, 0, 0);
     			bknife.chargeAttack(RIGHT);
+    			
     		}
     		
     		break;
     		
     	}
-    	
-    	
 		
 	}
 	
@@ -351,15 +351,16 @@ public class GamePanel extends Application{
 		bknife.accerlateY(GRAVITY);
 		bknife.moveY();
 		
-		/*if(bknife.getXVelocity() < 0) {
+		if(bknife.getXVelocity() < 0) {
 			bknife.lastDirection = LEFT;
 		}
 		
 		if(bknife.getXVelocity() > 0) {
 			bknife.lastDirection = RIGHT;
-		}*/
+		}
 		
 		bknife.moveX();
+		
 	}
 	
 	public void collision2() {
@@ -421,6 +422,10 @@ public class GamePanel extends Application{
 		} else if(bknife.rightBoundary() > canvas.getWidth()) {
 			bknife.setX(canvas.getWidth() - bknife.getWidth());
 			bknife.setXVelocity(0);
+		}
+		
+		if(bknife.colliding(toasty)) {
+			bknife.attack(toasty);
 		}
 		
 	}

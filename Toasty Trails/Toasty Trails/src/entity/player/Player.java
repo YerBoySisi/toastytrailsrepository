@@ -4,6 +4,8 @@ import entity.Entity;
 import entity.LivingEntity;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 
 public class Player extends LivingEntity {
@@ -187,7 +189,6 @@ public class Player extends LivingEntity {
 	@Override
 	public void render(double t, GraphicsContext gc) {
 
-		
 		if(!walkingLeft && !walkingRight) {
 
 			if(lastDirection == LEFT) {
@@ -206,6 +207,11 @@ public class Player extends LivingEntity {
 			gc.drawImage(getSprite(t), (int)x(), (int)y());
 		}
 		
+		if(invincible) {
+			
+			gc.applyEffect(new BoxBlur());
+			
+		}
 		
 	}
 
