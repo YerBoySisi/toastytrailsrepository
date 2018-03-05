@@ -21,24 +21,62 @@ public abstract class Knife extends Enemy {
 		
 	}
 	
+	public void chargeAttackHop(int direction) {
+		
+		setXVelocity(0);
+		hop();
+		
+	}
+	
+	public void windUp(int direction) {
+		
+		for(int i = 0; i < 5; i++) {
+			velocityX -= direction * .05;
+		}
+		
+	}
+	
 	public void charge(int direction) {
 		
-		velocityX += direction * 9;
+		velocityX = direction * 6;
+		
+	}
+	
+	public void slowDown(int direction) {
+		
+		velocityX = 0;
 		
 	}
 	
 	public void chargeAttack(int direction) {
 		
-		setXVelocity(0);
-		hop();
-		while(velocityY != 0) {}
-		charge(direction);
-		
-	}
-	
-	public void performChargeAttack(int direction) {
-		
-		new Thread(() -> chargeAttack(direction)).start();
+		new Thread(() -> {
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			chargeAttackHop(direction);
+			
+			try {
+				Thread.sleep(400);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			windUp(direction);
+			
+			try {
+				Thread.sleep(550);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			charge(direction);
+			
+		}).start();
 		
 	}
 	

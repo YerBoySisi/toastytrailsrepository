@@ -13,6 +13,8 @@ import javafx.application.*;
 
 import java.util.HashMap;
 
+import entity.enemy.Enemy;
+import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
@@ -35,6 +37,7 @@ public class GamePanel extends Application{
 	private static Canvas canvas;
 	private static GraphicsContext gc;
 	private static Player toasty;
+	private static Butterknife bknife;
 	private static Camera cam;
 	
 	private static HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
@@ -69,6 +72,7 @@ public class GamePanel extends Application{
 		gamescene = new Scene(gameRoot);
 		
 		toasty = new Player(Form.NORMAL, 0, 0, 0, 0);
+		bknife = new Butterknife(72, 0, 0, 0);
 		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-220);
@@ -126,6 +130,9 @@ public class GamePanel extends Application{
 		 movement();
          collision();
          toasty.render(t, gc);
+         movement2();
+         collision2();
+         bknife.render(t, gc);
          camera();
 		
 	}
@@ -205,9 +212,7 @@ public class GamePanel extends Application{
 		toasty.moveY();
 		
 		if(toasty.y() > canvas.getHeight() + 500) {
-			toasty.setX(lvls[currentLvl].getInitialPlayerX());
-			toasty.setY(lvls[currentLvl].getInitialPlayerY());
-			toasty.setYVelocity(lvls[currentLvl].getInitialPlayerYVelocity());
+			spawnPlayer();
 		}
 		
 	}
@@ -249,8 +254,8 @@ public class GamePanel extends Application{
     									
     					//jumping into bottom of block
     					if(toasty.topBoundary() >= lvls[currentLvl].map.get(row).get(col).bottomBoundary() + toasty.getYVelocity() &&
-    					   toasty.rightBoundary() < lvls[currentLvl].map.get(row).get(col).leftBoundary() || 
-    					   toasty.leftBoundary() > lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
+    					   toasty.rightBoundary() > lvls[currentLvl].map.get(row).get(col).leftBoundary() && 
+    					   toasty.leftBoundary() < lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
     						toasty.setY(lvls[currentLvl].map.get(row).get(col).y() + toasty.getHeight() - 12);
     						toasty.setYVelocity(toasty.getMass());
     					}
@@ -322,6 +327,8 @@ public class GamePanel extends Application{
     			window.setTitle(lvls[currentLvl].getName());
     			window.setScene(gamescene);
     			spawnPlayer();
+    			bknife = new Butterknife(72, 0, 0, 0);
+    			bknife.chargeAttack(RIGHT);
     		}
     		
     		break;
@@ -338,5 +345,84 @@ public class GamePanel extends Application{
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
 	}
-
+	
+	public void movement2() {
+		
+		bknife.accerlateY(GRAVITY);
+		bknife.moveY();
+		
+		/*if(bknife.getXVelocity() < 0) {
+			bknife.lastDirection = LEFT;
+		}
+		
+		if(bknife.getXVelocity() > 0) {
+			bknife.lastDirection = RIGHT;
+		}*/
+		
+		bknife.moveX();
+	}
+	
+	public void collision2() {
+		
+		for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
+			
+        	for(int col = 0; col < lvls[currentLvl].map.get(row).size(); col++) {
+    			
+        		if(lvls[currentLvl].map.get(row).get(col) != null) {
+    				
+        			if(bknife.colliding(lvls[currentLvl].map.get(row).get(col))) {
+    					
+    					//if(!bknife.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
+    						
+    						//walking into left of block
+	    					if(bknife.rightBoundary() <= lvls[currentLvl].map.get(row).get(col).leftBoundary() + bknife.getXVelocity()) {
+	    						bknife.setX(lvls[currentLvl].map.get(row).get(col).leftBoundary() - bknife.getWidth());
+	    						bknife.setXVelocity(0);
+	    					}
+	    					
+	    					//walking into right of block
+	    					if(bknife.leftBoundary() >= lvls[currentLvl].map.get(row).get(col).rightBoundary() + bknife.getXVelocity()) {
+	    						bknife.setX(lvls[currentLvl].map.get(row).get(col).rightBoundary());
+	    						bknife.setXVelocity(0);
+	    					}
+    					
+    					//}
+    					
+    					//standing on top of block
+    					if(bknife.bottomBoundary() <= lvls[currentLvl].map.get(row).get(col).topBoundary() + bknife.getYVelocity() &&
+    	    					   bknife.rightBoundary() > lvls[currentLvl].map.get(row).get(col).leftBoundary() && 
+    	    					   bknife.leftBoundary() < lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
+    						bknife.setY(lvls[currentLvl].map.get(row).get(col).y() - bknife.getHeight());
+    						bknife.setYVelocity(0);
+    						bknife.standing = true;
+    					}
+    									
+    					//jumping into bottom of block
+    					if(bknife.topBoundary() >= lvls[currentLvl].map.get(row).get(col).bottomBoundary() + bknife.getYVelocity() &&
+    					   bknife.rightBoundary() < lvls[currentLvl].map.get(row).get(col).leftBoundary() || 
+    					   bknife.leftBoundary() > lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
+    						bknife.setY(lvls[currentLvl].map.get(row).get(col).y() + bknife.getHeight() - 12);
+    						bknife.setYVelocity(bknife.getMass());
+    					}
+    					
+    				} else {
+    					bknife.standing = false;
+    				}
+    				
+    			}
+            	
+    		}
+        	
+		}
+		
+		if(bknife.leftBoundary() < 0) {
+			bknife.setX(0);
+			bknife.setXVelocity(0);
+		} else if(bknife.rightBoundary() > canvas.getWidth()) {
+			bknife.setX(canvas.getWidth() - bknife.getWidth());
+			bknife.setXVelocity(0);
+		}
+		
+	}
+	
 }
