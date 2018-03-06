@@ -34,4 +34,10 @@ public class Skillet extends Enemy {
 		
 	}
 
+	@Override
+	public void aI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

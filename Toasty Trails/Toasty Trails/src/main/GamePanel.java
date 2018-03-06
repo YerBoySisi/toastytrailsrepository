@@ -31,11 +31,12 @@ public class GamePanel extends Application{
 	public static final LevelState[] lvls = {new LevelOne()};
 	public static int currentLvl = 0;
 	
-	private static Stage window;
-	private static Scene menuscene, gamescene;
+	public static Stage window;
+	public static Scene menuscene;
+	public static Scene gamescene;
 	private static Canvas canvas;
 	private static GraphicsContext gc;
-	private static Player toasty;
+	public static Player toasty;
 	private static Butterknife bknife;
 	private static Camera cam;
 	
@@ -99,8 +100,6 @@ public class GamePanel extends Application{
         	
             public void handle(long currentNanoTime) {
             	
-            	System.out.println(toasty.getHP());
-            	
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 450);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
@@ -132,7 +131,7 @@ public class GamePanel extends Application{
          collision();
          toasty.render(t, gc);
          movement2();
-         collision2();
+         enemyCollision();
          bknife.render(t, gc);
          camera();
 		
@@ -329,8 +328,7 @@ public class GamePanel extends Application{
     			window.setScene(gamescene);
     			spawnPlayer();
     			bknife = new Butterknife(200, 0, 0, 0);
-    			bknife.chargeAttack(RIGHT);
-    			
+    			bknife.aI();
     		}
     		
     		break;
@@ -363,7 +361,7 @@ public class GamePanel extends Application{
 		
 	}
 	
-	public void collision2() {
+	public void enemyCollision() {
 		
 		for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
 			
@@ -373,7 +371,7 @@ public class GamePanel extends Application{
     				
         			if(bknife.colliding(lvls[currentLvl].map.get(row).get(col))) {
     					
-    					//if(!bknife.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
+    					if(!bknife.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
     						
     						//walking into left of block
 	    					if(bknife.rightBoundary() <= lvls[currentLvl].map.get(row).get(col).leftBoundary() + bknife.getXVelocity()) {
@@ -387,7 +385,7 @@ public class GamePanel extends Application{
 	    						bknife.setXVelocity(0);
 	    					}
     					
-    					//}
+    					}
     					
     					//standing on top of block
     					if(bknife.bottomBoundary() <= lvls[currentLvl].map.get(row).get(col).topBoundary() + bknife.getYVelocity() &&
@@ -414,14 +412,6 @@ public class GamePanel extends Application{
             	
     		}
         	
-		}
-		
-		if(bknife.leftBoundary() < 0) {
-			bknife.setX(0);
-			bknife.setXVelocity(0);
-		} else if(bknife.rightBoundary() > canvas.getWidth()) {
-			bknife.setX(canvas.getWidth() - bknife.getWidth());
-			bknife.setXVelocity(0);
 		}
 		
 		if(bknife.colliding(toasty)) {

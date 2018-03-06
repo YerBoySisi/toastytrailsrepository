@@ -32,5 +32,11 @@ public class Bird extends Enemy {
 		
 		
 	}
+
+	@Override
+	public void aI() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -1,6 +1,8 @@
 package entity.enemy.knife;
 
+import entity.Entity;
 import entity.enemy.Enemy;
+import main.GamePanel;
 
 public abstract class Knife extends Enemy {
 	
@@ -15,9 +17,15 @@ public abstract class Knife extends Enemy {
 		
 	}
 	
+	public void walk(int direction) {
+		
+		setXVelocity(2 * direction);
+		
+	}
+	
 	public void hop() {
 		
-		velocityY -= 5;
+		setYVelocity(-5);
 		
 	}
 	
@@ -31,14 +39,24 @@ public abstract class Knife extends Enemy {
 	public void windUp(int direction) {
 		
 		for(int i = 0; i < 5; i++) {
-			velocityX -= direction * .05;
+			setXVelocity(-direction * .25);
 		}
 		
 	}
 	
 	public void charge(int direction) {
 		
-		velocityX = direction * 6;
+		setXVelocity(direction * 6);
+		
+	}
+	
+	public boolean inVision(Entity e) {
+		
+		if(e.x() - this.x() <= 100 && e.x() - this.x() >= -100) {
+			return true;
+		}
+		
+		return false;
 		
 	}
 	
@@ -69,6 +87,51 @@ public abstract class Knife extends Enemy {
 			}
 			
 			charge(direction);
+			
+		}).start();
+		
+	}
+	
+	@Override
+	public void aI() {
+		
+		new Thread(() -> {
+			
+			while(true) {
+				
+				try {
+					Thread.sleep((int)((Math.random() * (3000 - 500) + 5000)));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+						
+				if(Math.random() < .5) {
+					walk(-1);
+				} else {
+					walk(1);
+				}
+						
+				try {
+					Thread.sleep((int)((Math.random() * (1500 - 500) + 500)));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+						
+				setXVelocity(0);
+				
+			}
+			
+		}).start();
+		
+		new Thread(() -> {
+			
+			while(true) {
+				
+				if(inVision(GamePanel.toasty)) {
+					chargeAttack(lastDirection);
+				}
+				
+			}
 			
 		}).start();
 		

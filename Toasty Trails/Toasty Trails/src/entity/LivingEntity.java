@@ -1,6 +1,10 @@
 package entity;
 
+import javafx.scene.canvas.GraphicsContext;
+
 public abstract class LivingEntity extends Entity {
+	
+	private static final int LEFT = -1;
 	
 	protected boolean alive = true;
 	protected double maxSpeed; //the maximum X velocity the LivingEntity can attain by moving on its own
@@ -33,10 +37,24 @@ public abstract class LivingEntity extends Entity {
 		
 	}
 	
+	
+	/**
+	 * Returns true if the bottom boundary of Player is the same as the top boundary of Block
+	 * Returns false otherwise
+	 * @param e
+	 * @return
+	 */
+	public boolean onTopOf(Entity e) {
+		
+		return (int)bottomBoundary() == (int)e.topBoundary();
+		
+	}
+	
+	
 	/**
 	 * Sets 'alive' to false
 	 */
-	public void kill() {
+	public void die() {
 		
 		alive = false;
 		
@@ -56,6 +74,29 @@ public abstract class LivingEntity extends Entity {
 		
 		velocityY += mass * g;
 	
+	}
+	
+	@Override
+	public void render(double t, GraphicsContext gc) {
+
+		if(!walkingLeft && !walkingRight) {
+
+			if(lastDirection == LEFT) {
+				gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+			} else {
+				gc.drawImage(getSprite(t), (int)x(), (int)y());
+			}
+			
+		}
+		
+		if(walkingLeft) {
+			gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+		}
+		
+		if(walkingRight) {
+			gc.drawImage(getSprite(t), (int)x(), (int)y());
+		}
+		
 	}
 	
 }

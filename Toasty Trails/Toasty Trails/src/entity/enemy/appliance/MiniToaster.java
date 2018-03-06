@@ -40,4 +40,10 @@ public class MiniToaster extends Enemy {
 		
 	}
 
+	@Override
+	public void aI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,6 +1,5 @@
 package entity.enemy.knife;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Butterknife extends Knife {
@@ -52,28 +51,6 @@ public class Butterknife extends Knife {
 		int frame = (int)((time % (SPRITE[getAction()].length * 0.6)) / 0.6);
 		setSprite(SPRITE[getAction()][frame]);
 		return sprite;
-		
-	}
-
-	public void render(double t, GraphicsContext gc) {
-
-		if(!walkingLeft && !walkingRight) {
-
-			if(lastDirection == LEFT) {
-				gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
-			} else {
-				gc.drawImage(getSprite(t), (int)x(), (int)y());
-			}
-			
-		}
-		
-		if(walkingLeft) {
-			gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
-		}
-		
-		if(walkingRight) {
-			gc.drawImage(getSprite(t), (int)x(), (int)y());
-		}
 		
 	}
 

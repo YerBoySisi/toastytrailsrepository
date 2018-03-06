@@ -1,11 +1,9 @@
 package entity.player;
 
-import entity.Entity;
+
 import entity.LivingEntity;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 
 public class Player extends LivingEntity {
@@ -163,18 +161,6 @@ public class Player extends LivingEntity {
 		
 	}
 	
-	/**
-	 * Returns true if the bottom boundary of Player is the same as the top boundary of Block
-	 * Returns false otherwise
-	 * @param e
-	 * @return
-	 */
-	public boolean onTopOf(Entity e) {
-		
-		return (int)bottomBoundary() == (int)e.topBoundary();
-		
-	}
-	
 	
 	/**
 	 * Gets a rectangle of the boundaries of the Entity
@@ -188,28 +174,50 @@ public class Player extends LivingEntity {
 	
 	@Override
 	public void render(double t, GraphicsContext gc) {
-
-		if(!walkingLeft && !walkingRight) {
-
-			if(lastDirection == LEFT) {
-				gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
-			} else {
-				gc.drawImage(getSprite(t), (int)x(), (int)y());
+		
+		if(!invincible) {
+			
+			if(!walkingLeft && !walkingRight) {
+	
+				if(lastDirection == LEFT) {
+					gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+				} else {
+					gc.drawImage(getSprite(t), (int)x(), (int)y());
+				}
+				
 			}
 			
-		}
-		
-		if(walkingLeft) {
-			gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
-		}
-		
-		if(walkingRight) {
-			gc.drawImage(getSprite(t), (int)x(), (int)y());
-		}
-		
-		if(invincible) {
+			if(walkingLeft) {
+				gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+			}
 			
-			gc.applyEffect(new BoxBlur());
+			if(walkingRight) {
+				gc.drawImage(getSprite(t), (int)x(), (int)y());
+			}
+		
+		} else {
+			
+			if((int)t % 2 == 0) {
+			
+				if(!walkingLeft && !walkingRight) {
+					
+					if(lastDirection == LEFT) {
+						gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+					} else {
+						gc.drawImage(getSprite(t), (int)x(), (int)y());
+					}
+					
+				}
+				
+				if(walkingLeft) {
+					gc.drawImage(getSprite(t), (int)x() + getWidth(), (int)y(), -getWidth(), getHeight());
+				}
+				
+				if(walkingRight) {
+					gc.drawImage(getSprite(t), (int)x(), (int)y());
+				}
+				
+			}
 			
 		}
 		

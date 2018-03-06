@@ -30,7 +30,7 @@ public abstract class Enemy extends LivingEntity {
 				e.setXVelocity(force * lastDirection);
 			} else {
 				
-				if(this.rightBoundary() <= e.leftBoundary() + this.getXVelocity()) {
+				if(this.rightBoundary() <= e.leftBoundary() + (e.getWidth() / 2)) {
 					e.setXVelocity(force);
 				} else {
 					e.setXVelocity(-force);
@@ -38,6 +38,7 @@ public abstract class Enemy extends LivingEntity {
 				
 			}
 			
+			e.setYVelocity(-5);
 			e.activateInvincibility();
 		
 		}
@@ -56,6 +57,8 @@ public abstract class Enemy extends LivingEntity {
 		
 	}
 	
+	public abstract void aI();
 	
+	public abstract boolean inVision(Entity e);
 	
 }
