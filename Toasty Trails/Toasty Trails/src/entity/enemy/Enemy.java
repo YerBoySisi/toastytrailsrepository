@@ -30,7 +30,7 @@ public abstract class Enemy extends LivingEntity {
 				e.setXVelocity(force * lastDirection);
 			} else {
 				
-				if(this.rightBoundary() <= e.leftBoundary() + (e.getWidth() / 2)) {
+				if(this.rightBoundary() <= e.leftBoundary() + (e.getWidth() / 2) + 5) {
 					e.setXVelocity(force);
 				} else {
 					e.setXVelocity(-force);

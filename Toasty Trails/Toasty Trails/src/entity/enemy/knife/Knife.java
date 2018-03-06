@@ -97,22 +97,38 @@ public abstract class Knife extends Enemy {
 		
 		new Thread(() -> {
 			
+			try {
+				Thread.sleep((int)((Math.random() * (3000 - 500) + 500)));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			if(Math.random() < .5) {
+				walk(-1);
+			} else {
+				walk(1);
+			}
+			
+			try {
+				Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+					
+			setXVelocity(0);
+			
 			while(true) {
 				
 				try {
-					Thread.sleep((int)((Math.random() * (3000 - 500) + 5000)));
+					Thread.sleep((int)((Math.random() * (3000 - 500) + 500)));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 						
-				if(Math.random() < .5) {
-					walk(-1);
-				} else {
-					walk(1);
-				}
+				walk(lastDirection * -1);
 						
 				try {
-					Thread.sleep((int)((Math.random() * (1500 - 500) + 500)));
+					Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
