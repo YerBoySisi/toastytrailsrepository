@@ -1,16 +1,22 @@
 package main;
 
 import javafx.stage.*;
+import javafx.util.Duration;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import javafx.application.*;
 
+import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 
 import entity.enemy.knife.Butterknife;
@@ -40,6 +46,10 @@ public class GamePanel extends Application{
 	private static Butterknife bknife;
 	private static Camera cam;
 	
+	public static MediaPlayer mediaPlayer;
+	public static MediaPlayer mp;
+	public static Media hit;
+	
 	private static HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
 	private static GameMenu menu;
@@ -53,6 +63,16 @@ public class GamePanel extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		window = primaryStage;
+		
+		Media bgm = new Media(new File("Toasty Trails/Resources/Music/bgm.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(bgm);
+		mediaPlayer.setCycleCount(Integer.MAX_VALUE);
+		
+		hit = new Media(new File("Toasty Trails/Resources/Sounds/hit.mp3").toURI().toString());
+		mp = new MediaPlayer(hit);
+		
+		//URL url = getClass().getResource("Toasty Trails/Resources/Sounds/hit.mp3");
+		//hit = new AudioClip(url.toString());
 		
 		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 450);
 		bg.setFill(Color.CYAN);
@@ -326,9 +346,12 @@ public class GamePanel extends Application{
     		if(!window.getScene().equals(gamescene)) {
     			window.setTitle(lvls[currentLvl].getName());
     			window.setScene(gamescene);
+    			mediaPlayer.setRate(1.13);
+    			mediaPlayer.play();
     			spawnPlayer();
-    			bknife = new Butterknife(200, 0, 0, 0);
+    			bknife = new Butterknife(400, 0, 0, 0);
     			bknife.aI();
+    			//bknife.chargeAttack(LEFT);
     		}
     		
     		break;
@@ -415,7 +438,13 @@ public class GamePanel extends Application{
 		}
 		
 		if(bknife.colliding(toasty)) {
-			bknife.attack(toasty);
+			
+			if(!toasty.invincible) {
+				mp = new MediaPlayer(hit);
+				mp.play();
+				bknife.attack(toasty);
+			}
+			
 		}
 		
 	}

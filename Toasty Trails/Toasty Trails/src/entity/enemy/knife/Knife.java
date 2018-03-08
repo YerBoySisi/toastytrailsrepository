@@ -98,7 +98,7 @@ public abstract class Knife extends Enemy {
 		new Thread(() -> {
 			
 			try {
-				Thread.sleep((int)((Math.random() * (3000 - 500) + 500)));
+				Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -120,7 +120,7 @@ public abstract class Knife extends Enemy {
 			while(true) {
 				
 				try {
-					Thread.sleep((int)((Math.random() * (3000 - 500) + 500)));
+					Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
