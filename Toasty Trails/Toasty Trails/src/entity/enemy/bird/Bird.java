@@ -1,8 +1,9 @@
 package entity.enemy.bird;
 
+import entity.Entity;
 import entity.enemy.Enemy;
 
-public class Bird extends Enemy {
+public abstract class Bird extends Enemy {
 	
 	//constants
 	public static final String NAME = "Bird";
@@ -37,6 +38,12 @@ public class Bird extends Enemy {
 	public void aI() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean inVision(Entity e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

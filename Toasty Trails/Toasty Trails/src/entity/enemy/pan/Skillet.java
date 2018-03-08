@@ -1,5 +1,6 @@
 package entity.enemy.pan;
 
+import entity.Entity;
 import entity.enemy.Enemy;
 
 public class Skillet extends Enemy {
@@ -38,6 +39,12 @@ public class Skillet extends Enemy {
 	public void aI() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean inVision(Entity e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

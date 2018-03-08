@@ -6,12 +6,14 @@ import java.util.List;
 
 import entity.InanimateEntity;
 import entity.platforms.Block;
+import entity.platforms.PermeableBlock;
 
 public class Map {
 	
 	//CONSTANTS
 	//------Legend------
 	public static final int GRASS_BLOCK = 1;
+	public static final int PERMEABLE_GRASS_BLOCK = 2;
 	
 	//variables
 	//map
@@ -38,6 +40,10 @@ public class Map {
 				
 				if(map[row][col] == GRASS_BLOCK) {
 					objMap[row][col] = new Block(0, 0);
+				}
+				
+				if(map[row][col] == PERMEABLE_GRASS_BLOCK) {
+					objMap[row][col] = new PermeableBlock(0, 0);
 				}
 				
 			}

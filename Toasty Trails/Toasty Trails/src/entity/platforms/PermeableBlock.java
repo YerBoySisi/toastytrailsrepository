@@ -1,17 +1,14 @@
 package entity.platforms;
 
-import entity.InanimateEntity;
-
-public class Block extends InanimateEntity {
+public class PermeableBlock extends Block {
 	
 	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/grassblock.png"};
 	
-	public Block(double x, double y) {
+	public PermeableBlock(double x, double y) {
 		
-		this.x = x;
-		this.y = y;
-		name = "Block";
+		super(x, y);
 		setSprite(SPRITE[0]);
+		permeable = true;
 		
 	}
 

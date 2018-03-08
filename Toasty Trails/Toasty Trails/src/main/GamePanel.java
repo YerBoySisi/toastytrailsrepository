@@ -6,7 +6,6 @@ import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.*;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -16,10 +15,10 @@ import javafx.animation.AnimationTimer;
 import javafx.application.*;
 
 import java.io.File;
-import java.net.URL;
 import java.util.HashMap;
 
 import entity.enemy.knife.Butterknife;
+import entity.platforms.Block;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
@@ -43,12 +42,10 @@ public class GamePanel extends Application{
 	private static Canvas canvas;
 	private static GraphicsContext gc;
 	public static Player toasty;
-	private static Butterknife bknife;
 	private static Camera cam;
 	
 	public static MediaPlayer mediaPlayer;
 	public static MediaPlayer mp;
-	public static Media hit;
 	
 	private static HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
@@ -68,12 +65,9 @@ public class GamePanel extends Application{
 		mediaPlayer = new MediaPlayer(bgm);
 		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
 		
-		//URL url = getClass().getResource("Toasty Trails/Resources/Sounds/hit.mp3");
-		//hit = new AudioClip(url.toString());
-		
-		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 450);
+		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 1152);
 		bg.setFill(Color.CYAN);
-		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 500);
+		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 1152);
 		gc = canvas.getGraphicsContext2D();
 		
 		Pane menuRoot = new Pane();
@@ -89,7 +83,6 @@ public class GamePanel extends Application{
 		gamescene = new Scene(gameRoot);
 		
 		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
-		bknife = new Butterknife(72, 0, 0, 0);
 		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-220);
@@ -117,7 +110,7 @@ public class GamePanel extends Application{
         	
             public void handle(long currentNanoTime) {
             	
-            	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 450);
+            	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 1152);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
@@ -147,9 +140,6 @@ public class GamePanel extends Application{
 		 movement();
          collision();
          toasty.render(t, gc);
-         movement2();
-         enemyCollision();
-         bknife.render(t, gc);
          camera();
 		
 	}
@@ -164,13 +154,13 @@ public class GamePanel extends Application{
 		
 		if(!(isPressed(KeyCode.RIGHT) && isPressed(KeyCode.LEFT))) {
 		
-			if(isPressed(KeyCode.LEFT)) {
+			if(toasty.getXVelocity() < 10 && isPressed(KeyCode.LEFT)) {
 				toasty.walkingLeft = true;
 			} else {
 				toasty.walkingLeft = false;
 			}
 			
-			if(isPressed(KeyCode.RIGHT)) {
+			if(toasty.getXVelocity() < 10 && isPressed(KeyCode.RIGHT)) {
 				toasty.walkingRight = true;
 			} else {
 				toasty.walkingRight = false;
@@ -244,11 +234,18 @@ public class GamePanel extends Application{
     				
         			if(toasty.colliding(lvls[currentLvl].map.get(row).get(col))) {
     					
-    					if(!toasty.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
+    					if(!lvls[currentLvl].map.get(row).get(col).isPermeable() && 
+    					   !toasty.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
     						
     						//walking into left of block
-	    					if(toasty.rightBoundary() - 5 <= lvls[currentLvl].map.get(row).get(col).leftBoundary() + toasty.getXVelocity()) {
-	    						toasty.setX(lvls[currentLvl].map.get(row).get(col).leftBoundary() - toasty.getWidth());
+	    					if(toasty.rightBoundary() - 5 <= lvls[currentLvl].map.get(row).get(col).leftBoundary() + toasty.getXVelocity() + 3) {
+	    						
+	    						if(toasty.getXVelocity() > 0) {
+	    							toasty.setX(lvls[currentLvl].map.get(row).get(col).leftBoundary() - toasty.getWidth() - 1);
+	    						} else {
+	    							toasty.setX(lvls[currentLvl].map.get(row).get(col).leftBoundary() - toasty.getWidth() - 1);
+	    						}
+	    						
 	    						toasty.setXVelocity(0);
 	    					}
 	    					
@@ -270,7 +267,8 @@ public class GamePanel extends Application{
     					}
     									
     					//jumping into bottom of block
-    					if(toasty.topBoundary() >= lvls[currentLvl].map.get(row).get(col).bottomBoundary() + toasty.getYVelocity() &&
+    					if(!lvls[currentLvl].map.get(row).get(col).isPermeable() && 
+    						toasty.topBoundary() >= lvls[currentLvl].map.get(row).get(col).bottomBoundary() + toasty.getYVelocity() &&
     					   toasty.rightBoundary() > lvls[currentLvl].map.get(row).get(col).leftBoundary() && 
     					   toasty.leftBoundary() < lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
     						toasty.setY(lvls[currentLvl].map.get(row).get(col).y() + toasty.getHeight() - 12);
@@ -345,10 +343,6 @@ public class GamePanel extends Application{
     			window.setScene(gamescene);
     			mediaPlayer.setRate(1.13);
     			mediaPlayer.play();
-    			spawnPlayer();
-    			bknife = new Butterknife(400, 0, 0, 0);
-    			bknife.aI();
-    			//bknife.chargeAttack(LEFT);
     		}
     		
     		break;
@@ -359,11 +353,12 @@ public class GamePanel extends Application{
 	
 	public static void spawnPlayer() {
 		
-		toasty = new Player(Form.NORMAL, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
+		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
 	}
 	
+	/*
 	public void movement2() {
 		
 		bknife.accerlateY(GRAVITY);
@@ -437,20 +432,12 @@ public class GamePanel extends Application{
 		if(bknife.colliding(toasty)) {
 			
 			if(!toasty.invincible) {
-				playSoundFromURL("Toasty Trails/Resources/Sounds/hit.mp3");
 				bknife.attack(toasty);
 			}
 			
 		}
 		
 	}
-	
-	public static void playSoundFromURL(String path) {
-		
-		hit = new Media(new File(path).toURI().toString());
-		mp = new MediaPlayer(hit);
-		mp.play();
-		
-	}
+	*/
 	
 }

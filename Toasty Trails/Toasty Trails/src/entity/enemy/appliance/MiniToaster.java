@@ -1,5 +1,6 @@
 package entity.enemy.appliance;
 
+import entity.Entity;
 import entity.enemy.Enemy;
 
 public class MiniToaster extends Enemy {
@@ -44,6 +45,12 @@ public class MiniToaster extends Enemy {
 	public void aI() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean inVision(Entity e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
