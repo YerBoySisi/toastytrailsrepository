@@ -66,10 +66,7 @@ public class GamePanel extends Application{
 		
 		Media bgm = new Media(new File("Toasty Trails/Resources/Music/bgm.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(bgm);
-		mediaPlayer.setCycleCount(Integer.MAX_VALUE);
-		
-		hit = new Media(new File("Toasty Trails/Resources/Sounds/hit.mp3").toURI().toString());
-		mp = new MediaPlayer(hit);
+		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
 		
 		//URL url = getClass().getResource("Toasty Trails/Resources/Sounds/hit.mp3");
 		//hit = new AudioClip(url.toString());
@@ -91,7 +88,7 @@ public class GamePanel extends Application{
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
 		
-		toasty = new Player(Form.NORMAL, 0, 0, 0, 0);
+		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
 		bknife = new Butterknife(72, 0, 0, 0);
 		
 		cam = new PerspectiveCamera(true);
@@ -440,12 +437,19 @@ public class GamePanel extends Application{
 		if(bknife.colliding(toasty)) {
 			
 			if(!toasty.invincible) {
-				mp = new MediaPlayer(hit);
-				mp.play();
+				playSoundFromURL("Toasty Trails/Resources/Sounds/hit.mp3");
 				bknife.attack(toasty);
 			}
 			
 		}
+		
+	}
+	
+	public static void playSoundFromURL(String path) {
+		
+		hit = new Media(new File(path).toURI().toString());
+		mp = new MediaPlayer(hit);
+		mp.play();
 		
 	}
 	
