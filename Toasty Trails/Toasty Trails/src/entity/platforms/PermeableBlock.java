@@ -2,7 +2,7 @@ package entity.platforms;
 
 public class PermeableBlock extends Block {
 	
-	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/grassblock.png"};
+	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/2.png"};
 	
 	public PermeableBlock(double x, double y) {
 		

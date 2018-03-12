@@ -1,9 +1,10 @@
 package entity.enemy;
 
+import entity.Damager;
 import entity.Entity;
 import entity.LivingEntity;
 
-public abstract class Enemy extends LivingEntity {
+public abstract class Enemy extends LivingEntity implements Damager {
 	
 	private int damage;
 	private int force;
@@ -20,7 +21,7 @@ public abstract class Enemy extends LivingEntity {
 		
 	}
 
-	public void attack(Entity e) {
+	public void attack(LivingEntity e) {
 		
 		if(!e.invincible) {
 			

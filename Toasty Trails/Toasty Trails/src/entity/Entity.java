@@ -333,7 +333,7 @@ public abstract class Entity {
 	 * @param e
 	 * @return
 	 */
-
+	
 	public void activateInvincibility() {
 		
 		new Thread(() -> {

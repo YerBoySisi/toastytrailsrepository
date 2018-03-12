@@ -17,8 +17,6 @@ import javafx.application.*;
 import java.io.File;
 import java.util.HashMap;
 
-import entity.enemy.knife.Butterknife;
-import entity.platforms.Block;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
@@ -65,15 +63,15 @@ public class GamePanel extends Application{
 		mediaPlayer = new MediaPlayer(bgm);
 		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
 		
-		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 1152);
+		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 3840);
 		bg.setFill(Color.CYAN);
-		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 1152);
+		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 3840);
 		gc = canvas.getGraphicsContext2D();
 		
 		Pane menuRoot = new Pane();
-		menuRoot.setPrefSize(500, 450);
+		menuRoot.setPrefSize(550, 450);
 		Pane gameRoot = new Pane();
-		gameRoot.setPrefSize(500, 450);
+		gameRoot.setPrefSize(800, 600);
 		
 		menu = new GameMenu();
 		menuRoot.getChildren().addAll(menu);
@@ -85,10 +83,10 @@ public class GamePanel extends Application{
 		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
 		
 		cam = new PerspectiveCamera(true);
-		cam.setTranslateZ(-220);
-		cam.setFarClip(500);
-		cam.setScaleX(2.5);
-		cam.setScaleY(2.5);
+		cam.setTranslateZ(-500);
+		cam.setFarClip(2000);
+		cam.setScaleX(1);
+		cam.setScaleY(1);
 		gamescene.setCamera(cam);
 		
 		gamescene.setOnKeyPressed(e -> {
@@ -110,7 +108,7 @@ public class GamePanel extends Application{
         	
             public void handle(long currentNanoTime) {
             	
-            	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 1152);
+            	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 3840);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
@@ -126,6 +124,18 @@ public class GamePanel extends Application{
         		}
                 
                 updateGame(t);
+                
+                if(toasty.y() < 1300) {
+                	cam.setTranslateZ(-2000);
+                }  else {
+                	
+	                if(toasty.x() > 1472 && toasty.x() < lvls[currentLvl].getLevelWidth()) {
+	                	cam.setTranslateZ(-1200);
+	                } else {
+	                	cam.setTranslateZ(-600);
+	                }
+	                
+                }
                 
             }
             
@@ -232,9 +242,9 @@ public class GamePanel extends Application{
     			
         		if(lvls[currentLvl].map.get(row).get(col) != null) {
     				
-        			if(toasty.colliding(lvls[currentLvl].map.get(row).get(col))) {
+        			if(!lvls[currentLvl].map.get(row).get(col).invisible && toasty.colliding(lvls[currentLvl].map.get(row).get(col))) {
     					
-    					if(!lvls[currentLvl].map.get(row).get(col).isPermeable() && 
+        				if(!lvls[currentLvl].map.get(row).get(col).isPermeable() && 
     					   !toasty.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
     						
     						//walking into left of block
@@ -274,6 +284,8 @@ public class GamePanel extends Application{
     						toasty.setY(lvls[currentLvl].map.get(row).get(col).y() + toasty.getHeight() - 12);
     						toasty.setYVelocity(toasty.getMass());
     					}
+    					
+    					lvls[currentLvl].map.get(row).get(col).performAction(toasty);
     					
     				} else {
     					toasty.standing = false;
@@ -343,6 +355,7 @@ public class GamePanel extends Application{
     			window.setScene(gamescene);
     			mediaPlayer.setRate(1.13);
     			mediaPlayer.play();
+    			spawnPlayer();
     		}
     		
     		break;
@@ -353,6 +366,7 @@ public class GamePanel extends Application{
 	
 	public static void spawnPlayer() {
 		
+		lvls[currentLvl] = new LevelOne();
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		

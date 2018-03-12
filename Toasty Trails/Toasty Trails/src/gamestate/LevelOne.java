@@ -11,9 +11,9 @@ public class LevelOne extends LevelState {
 	
 	//initial player properties
 	public static final double INITIAL_GRAVITY = 20;
-	public static final int INITIAL_PLAYER_X_COORDINATE = 0;
-	public static final int INITIAL_PLAYER_Y_COORDINATE = 700;
-	public static final int INITIAL_PLAYER_X_VELOCITY = 80;
+	public static final int INITIAL_PLAYER_X_COORDINATE = 1408;
+	public static final int INITIAL_PLAYER_Y_COORDINATE = 3200;
+	public static final int INITIAL_PLAYER_X_VELOCITY = 0;
 	public static final int INITIAL_PLAYER_Y_VELOCITY = 0;
 	
 	//initial enemies
@@ -21,8 +21,8 @@ public class LevelOne extends LevelState {
 	
 	//map properties
 	public static final String MAP_FILE = "Toasty Trails/Resources/Maps/lv1map.txt";
-	public static final int ROWS = 36;
-	public static final int COLS = 84;
+	public static final int ROWS = 120;
+	public static final int COLS = 168;
 	
 	public LevelOne() {
 		

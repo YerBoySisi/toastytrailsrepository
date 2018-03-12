@@ -49,6 +49,7 @@ public class Player extends LivingEntity {
 		accelerationX = X_ELERATION;
 		maxJumpHeight = JUMP_HEIGHT;
 		setStats();
+		maxHP = MAX_HP;
 		hp = maxHP;
 		this.x = x;
 		this.y = y;
@@ -95,8 +96,6 @@ public class Player extends LivingEntity {
 	
 	private void setStats() {
 		
-		maxHP = MAX_HP;
-		
 		switch(form) {
 		
 		case NORMAL :
@@ -122,6 +121,7 @@ public class Player extends LivingEntity {
 	public void setForm(Form form) {
 		
 		this.form = form;
+		setStats();
 		
 	}
 	
