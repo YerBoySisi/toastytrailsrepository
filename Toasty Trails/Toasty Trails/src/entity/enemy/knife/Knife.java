@@ -14,6 +14,7 @@ public abstract class Knife extends Enemy {
 	public Knife(int x, int y, double xVelocity, double yVelocity) {
 		
 		super(NAME, x, y, xVelocity, yVelocity, DAMAGE, HP);
+		aI();
 		
 	}
 	
@@ -64,12 +65,6 @@ public abstract class Knife extends Enemy {
 		
 		new Thread(() -> {
 			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
 			chargeAttackHop(direction);
 			
 			try {
@@ -95,7 +90,7 @@ public abstract class Knife extends Enemy {
 	@Override
 	public void aI() {
 		
-		new Thread(() -> {
+		Thread walk = new Thread(() -> {
 			
 			try {
 				Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
@@ -137,19 +132,28 @@ public abstract class Knife extends Enemy {
 				
 			}
 			
-		}).start();
+		});
 		
-		new Thread(() -> {
+		Thread spotPlayer = new Thread(() -> {
 			
-			while(true) {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			synchronized(walk) {
 				
-				if(inVision(GamePanel.toasty)) {
-					chargeAttack(lastDirection);
-				}
+				walk.interrupt();
 				
 			}
 			
-		}).start();
+			chargeAttack(lastDirection);
+			
+		});
+		
+		walk.start();
+		spotPlayer.start();
 		
 	}
 	

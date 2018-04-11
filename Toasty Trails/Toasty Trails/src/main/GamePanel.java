@@ -17,10 +17,12 @@ import javafx.application.*;
 import java.io.File;
 import java.util.HashMap;
 
+import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
 import gamestate.LevelState;
+import gamestate.LevelTwo;
 import gamestate.MenuState.GameMenu;
 
 public class GamePanel extends Application{
@@ -31,14 +33,15 @@ public class GamePanel extends Application{
 	public static final int LEFT = -1; public static final int RIGHT = 1;
 	public static final int GRAVITY = 5;
 	
-	public static final LevelState[] lvls = {new LevelOne()};
-	public static int currentLvl = 0;
+	public static final LevelState[] lvls = {new LevelOne(), new LevelTwo()};
+	public static int currentLvl = 1;
 	
 	public static Stage window;
 	public static Scene menuscene;
 	public static Scene gamescene;
 	private static Canvas canvas;
 	private static GraphicsContext gc;
+	public static Butterknife bknife;
 	public static Player toasty;
 	private static Camera cam;
 	
@@ -63,6 +66,9 @@ public class GamePanel extends Application{
 		mediaPlayer = new MediaPlayer(bgm);
 		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
 		
+		lvls[0] = new LevelOne();
+		lvls[1] = new LevelTwo();
+		
 		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 3840);
 		bg.setFill(Color.CYAN);
 		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 3840);
@@ -81,6 +87,7 @@ public class GamePanel extends Application{
 		gamescene = new Scene(gameRoot);
 		
 		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
+		bknife = new Butterknife(500, 0, 0, 0);
 		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-500);
@@ -125,6 +132,7 @@ public class GamePanel extends Application{
                 
                 updateGame(t);
                 
+                /*
                 if(toasty.y() < 1300) {
                 	cam.setTranslateZ(-2000);
                 }  else {
@@ -136,6 +144,7 @@ public class GamePanel extends Application{
 	                }
 	                
                 }
+                */
                 
             }
             
@@ -150,6 +159,9 @@ public class GamePanel extends Application{
 		 movement();
          collision();
          toasty.render(t, gc);
+         movement2();
+         enemyCollision();
+         bknife.render(t, gc);
          camera();
 		
 	}
@@ -366,13 +378,12 @@ public class GamePanel extends Application{
 	
 	public static void spawnPlayer() {
 		
-		lvls[currentLvl] = new LevelOne();
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
 	}
 	
-	/*
+	
 	public void movement2() {
 		
 		bknife.accerlateY(GRAVITY);
@@ -452,6 +463,6 @@ public class GamePanel extends Application{
 		}
 		
 	}
-	*/
+	
 	
 }
