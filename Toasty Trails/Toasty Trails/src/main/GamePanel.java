@@ -366,8 +366,9 @@ public class GamePanel extends Application{
     			window.setTitle(lvls[currentLvl].getName());
     			window.setScene(gamescene);
     			mediaPlayer.setRate(1.13);
-    			mediaPlayer.play();
+    			//mediaPlayer.play();
     			spawnPlayer();
+    			bknife.aI();
     		}
     		
     		break;

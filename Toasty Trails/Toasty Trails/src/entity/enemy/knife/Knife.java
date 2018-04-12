@@ -14,7 +14,7 @@ public abstract class Knife extends Enemy {
 	public Knife(int x, int y, double xVelocity, double yVelocity) {
 		
 		super(NAME, x, y, xVelocity, yVelocity, DAMAGE, HP);
-		aI();
+		
 		
 	}
 	
@@ -53,7 +53,13 @@ public abstract class Knife extends Enemy {
 	
 	public boolean inVision(Entity e) {
 		
-		if(e.x() - this.x() <= 100 && e.x() - this.x() >= -100) {
+		if(this.x() - e.rightBoundary() <= 55) {
+			lastDirection = -1;
+			return true;
+		}
+		
+		if(e.x() - this.rightBoundary() >= 55) {
+			lastDirection = 1;
 			return true;
 		}
 		
@@ -92,12 +98,6 @@ public abstract class Knife extends Enemy {
 		
 		Thread walk = new Thread(() -> {
 			
-			try {
-				Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
 			if(Math.random() < .5) {
 				walk(-1);
 			} else {
@@ -106,9 +106,7 @@ public abstract class Knife extends Enemy {
 			
 			try {
 				Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) {}
 					
 			setXVelocity(0);
 			
@@ -117,7 +115,7 @@ public abstract class Knife extends Enemy {
 				try {
 					Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					break;
 				}
 						
 				walk(lastDirection * -1);
@@ -125,7 +123,7 @@ public abstract class Knife extends Enemy {
 				try {
 					Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					break;
 				}
 						
 				setXVelocity(0);
@@ -136,15 +134,14 @@ public abstract class Knife extends Enemy {
 		
 		Thread spotPlayer = new Thread(() -> {
 			
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			synchronized(walk) {
+			while(true) {
 				
-				walk.interrupt();
+				System.out.println(inVision(GamePanel.toasty));
+				
+				if(inVision(GamePanel.toasty)) {
+					walk.interrupt();
+					break;
+				}
 				
 			}
 			
