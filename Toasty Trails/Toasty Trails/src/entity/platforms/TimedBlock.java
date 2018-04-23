@@ -29,6 +29,7 @@ public class TimedBlock extends Block {
 					e1.printStackTrace();
 				}
 				
+				sprite = null;
 				invisible = true;
 				
 			}).start();

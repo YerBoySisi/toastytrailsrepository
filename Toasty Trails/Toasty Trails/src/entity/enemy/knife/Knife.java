@@ -136,8 +136,6 @@ public abstract class Knife extends Enemy {
 			
 			while(true) {
 				
-				System.out.println(inVision(GamePanel.toasty));
-				
 				if(inVision(GamePanel.toasty)) {
 					walk.interrupt();
 					break;

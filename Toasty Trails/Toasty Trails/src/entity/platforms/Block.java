@@ -4,7 +4,7 @@ import entity.InanimateEntity;
 
 public class Block extends InanimateEntity {
 	
-	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/grassblock.png"};
+	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/stoneblock.png"};
 	
 	public Block(double x, double y) {
 		

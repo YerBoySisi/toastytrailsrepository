@@ -34,7 +34,7 @@ public class GamePanel extends Application{
 	public static final int GRAVITY = 5;
 	
 	public static final LevelState[] lvls = {new LevelOne(), new LevelTwo()};
-	public static int currentLvl = 1;
+	public static int currentLvl = 0;
 	
 	public static Stage window;
 	public static Scene menuscene;
@@ -132,7 +132,6 @@ public class GamePanel extends Application{
                 
                 updateGame(t);
                 
-                /*
                 if(toasty.y() < 1300) {
                 	cam.setTranslateZ(-2000);
                 }  else {
@@ -144,7 +143,6 @@ public class GamePanel extends Application{
 	                }
 	                
                 }
-                */
                 
             }
             
@@ -366,7 +364,7 @@ public class GamePanel extends Application{
     			window.setTitle(lvls[currentLvl].getName());
     			window.setScene(gamescene);
     			mediaPlayer.setRate(1.13);
-    			//mediaPlayer.play();
+    			mediaPlayer.play();
     			spawnPlayer();
     			bknife.aI();
     		}
@@ -381,6 +379,7 @@ public class GamePanel extends Application{
 		
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
+		lvls[currentLvl] = new LevelOne();
 		
 	}
 	
