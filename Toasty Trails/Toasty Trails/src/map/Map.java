@@ -18,7 +18,9 @@ public class Map {
 	
 	//CONSTANTS
 	//------Legend------
-	public static final int BLOCK = 1;
+	public static final int GRASS_BLOCK = 10;
+	public static final int DIRT_BLOCK = 11;
+	public static final int STONE_BLOCK = 12;
 	public static final int PERMEABLE_BLOCK = 2;
 	public static final int TIMED_BLOCK = 30;
 	public static final int TIMED_BLOCK_1 = 31;
@@ -50,8 +52,16 @@ public class Map {
 			
 			for(int col = 0; col < map[row].length; col++) {
 				
-				if(map[row][col] == BLOCK) {
-					objMap[row][col] = new Block(0, 0);
+				if(map[row][col] == GRASS_BLOCK) {
+					objMap[row][col] = new Block(0, 0, 0);
+				}
+				
+				if(map[row][col] == DIRT_BLOCK) {
+					objMap[row][col] = new Block(0, 0, 1);
+				}
+				
+				if(map[row][col] == STONE_BLOCK) {
+					objMap[row][col] = new Block(0, 0, 2);
 				}
 				
 				if(map[row][col] == PERMEABLE_BLOCK) {

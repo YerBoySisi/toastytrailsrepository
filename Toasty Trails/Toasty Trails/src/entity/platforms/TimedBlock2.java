@@ -12,7 +12,7 @@ public class TimedBlock2 extends Block {
 	
 	public TimedBlock2(double x, double y) {
 		
-		super(x, y);
+		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		
 	}

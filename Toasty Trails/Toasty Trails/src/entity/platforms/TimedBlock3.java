@@ -13,7 +13,7 @@ public class TimedBlock3 extends Block {
 	
 	public TimedBlock3(double x, double y) {
 		
-		super(x, y);
+		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		
 	}

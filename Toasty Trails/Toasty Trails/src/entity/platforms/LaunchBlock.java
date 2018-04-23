@@ -11,7 +11,7 @@ public class LaunchBlock extends Block {
 	
 	public LaunchBlock(double x, double y) {
 		
-		super(x, y);
+		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		launchHeight = 30;
 		

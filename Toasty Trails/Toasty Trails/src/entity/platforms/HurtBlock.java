@@ -10,7 +10,7 @@ public class HurtBlock extends Block implements Damager {
 	
 	public HurtBlock(double x, double y) {
 		
-		super(x, y);
+		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		setDamage(10);
 		

@@ -20,7 +20,7 @@ public class LevelTwo extends LevelState {
 	public static final Enemy[] INITIAL_ENEMIES = {new Butterknife(500, 0, 0, 0)};
 	
 	//map properties
-	public static final String MAP_FILE = "Toasty Trails/Resources/Maps/lv2map.txt";
+	public static final String MAP_FILE = "Toasty Trails/Resources/Maps/lv2map";
 	public static final int ROWS = 20;
 	public static final int COLS = 168;
 	

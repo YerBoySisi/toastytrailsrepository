@@ -12,8 +12,7 @@ public class Butterknife extends Knife {
 	public final String[] IDLE_SPRITE = {FILE_PATH + "butterknifeidle.png"};
 	public final String[] WALK_SPRITE = {FILE_PATH + "butterknifewalk1.png", FILE_PATH + "butterknifewalk2.png",
 										 FILE_PATH + "butterknifewalk3.png", FILE_PATH + "butterknifewalk4.png"};
-	public final String[] CHARGE_SPRITE = {FILE_PATH + "butterknifewalk1.png", FILE_PATH + "butterknifewalk2.png",
-			 							   FILE_PATH + "butterknifewalk3.png", FILE_PATH + "butterknifewalk4.png"};
+	public final String[] CHARGE_SPRITE = {FILE_PATH + "butterknifecharge.png"};
 	public final String[] HOP_SPRITE = {FILE_PATH + "butterknifejump.png"};
 	public final String[][] SPRITE = {IDLE_SPRITE, WALK_SPRITE, CHARGE_SPRITE, HOP_SPRITE};
 	
@@ -36,10 +35,11 @@ public class Butterknife extends Knife {
 		
 		if(velocityX == 0 && velocityY == 0) {
 			action = STANDING;
-		} else if(velocityX < 10) {
+		} else if(Math.abs(velocityX) < 6) {
 			action = WALKING;
-		} else if(velocityX > 10) {
+		} else if(Math.abs(velocityX) >= 6) {
 			action = CHARGING;
+			mass = 0;
 		} else if(velocityY != 0) {
 			action = HOPPING;
 		}

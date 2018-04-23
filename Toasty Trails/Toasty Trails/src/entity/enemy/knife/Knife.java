@@ -15,7 +15,6 @@ public abstract class Knife extends Enemy {
 		
 		super(NAME, x, y, xVelocity, yVelocity, DAMAGE, HP);
 		
-		
 	}
 	
 	public void walk(int direction) {
@@ -53,12 +52,12 @@ public abstract class Knife extends Enemy {
 	
 	public boolean inVision(Entity e) {
 		
-		if(this.x() - e.rightBoundary() <= 55) {
+		if(this.x() - e.rightBoundary() <= 55 && lastDirection == -1) {
 			lastDirection = -1;
 			return true;
 		}
 		
-		if(e.x() - this.rightBoundary() >= 55) {
+		if(e.x() - this.rightBoundary() >= 55 && lastDirection == 1) {
 			lastDirection = 1;
 			return true;
 		}
@@ -106,7 +105,9 @@ public abstract class Knife extends Enemy {
 			
 			try {
 				Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+				setXVelocity(0);
+			}
 					
 			setXVelocity(0);
 			
@@ -115,6 +116,7 @@ public abstract class Knife extends Enemy {
 				try {
 					Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
 				} catch (InterruptedException e) {
+					setXVelocity(0);
 					break;
 				}
 						
@@ -123,6 +125,7 @@ public abstract class Knife extends Enemy {
 				try {
 					Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
 				} catch (InterruptedException e) {
+					setXVelocity(0);
 					break;
 				}
 						
@@ -139,9 +142,13 @@ public abstract class Knife extends Enemy {
 				if(inVision(GamePanel.toasty)) {
 					walk.interrupt();
 					break;
+				} else {
+					System.out.println("Target out of sight");
 				}
 				
 			}
+			
+			System.out.println("TOASTY SPOTTED, CHARGE!!!");
 			
 			chargeAttack(lastDirection);
 			

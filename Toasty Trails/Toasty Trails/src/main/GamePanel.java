@@ -13,7 +13,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import javafx.application.*;
+import javafx.event.EventHandler;
 
+import java.io.Console;
 import java.io.File;
 import java.util.HashMap;
 
@@ -106,6 +108,17 @@ public class GamePanel extends Application{
 			controls();
 		});
 		
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			
+		    public void handle(WindowEvent we) {
+		        	 
+		    	System.out.println("Stage is closing");
+		    	System.exit(0);
+		           
+		    }
+	         
+	    });      
+		
 		window.setTitle("Toasty Trails");
 		window.setScene(menuscene);
 		
@@ -132,6 +145,7 @@ public class GamePanel extends Application{
                 
                 updateGame(t);
                 
+                /*
                 if(toasty.y() < 1300) {
                 	cam.setTranslateZ(-2000);
                 }  else {
@@ -143,6 +157,7 @@ public class GamePanel extends Application{
 	                }
 	                
                 }
+                */
                 
             }
             
@@ -366,7 +381,6 @@ public class GamePanel extends Application{
     			mediaPlayer.setRate(1.13);
     			mediaPlayer.play();
     			spawnPlayer();
-    			bknife.aI();
     		}
     		
     		break;
@@ -379,6 +393,8 @@ public class GamePanel extends Application{
 		
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
+		bknife = new Butterknife(500, 150, 0, 0);
+		bknife.aI();
 		lvls[currentLvl] = new LevelOne();
 		
 	}

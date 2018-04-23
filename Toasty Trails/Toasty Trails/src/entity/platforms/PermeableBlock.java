@@ -6,7 +6,7 @@ public class PermeableBlock extends Block {
 	
 	public PermeableBlock(double x, double y) {
 		
-		super(x, y);
+		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		permeable = true;
 		
