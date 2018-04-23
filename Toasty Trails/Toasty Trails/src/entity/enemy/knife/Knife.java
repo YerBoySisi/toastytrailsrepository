@@ -57,7 +57,7 @@ public abstract class Knife extends Enemy {
 			return true;
 		}
 		
-		if(e.x() - this.rightBoundary() >= 55 && lastDirection == 1) {
+		if(e.x() - this.rightBoundary() <= 55 && e.x() - this.rightBoundary() >= 0 && lastDirection == 1) {
 			lastDirection = 1;
 			return true;
 		}
@@ -98,39 +98,31 @@ public abstract class Knife extends Enemy {
 		Thread walk = new Thread(() -> {
 			
 			if(Math.random() < .5) {
-				walk(-1);
+				lastDirection = -1;
 			} else {
-				walk(1);
+				lastDirection = 1;
 			}
 			
-			try {
-				Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
-			} catch (InterruptedException e) {
-				setXVelocity(0);
-			}
+			while(!Thread.interrupted()) {
 					
-			setXVelocity(0);
-			
-			while(true) {
-				
 				try {
 					Thread.sleep((int)((Math.random() * (3000 - 1000) + 1000)));
 				} catch (InterruptedException e) {
 					setXVelocity(0);
 					break;
 				}
-						
+							
 				walk(lastDirection * -1);
-						
+							
 				try {
 					Thread.sleep((int)((Math.random() * (1500 - 300) + 300)));
 				} catch (InterruptedException e) {
 					setXVelocity(0);
 					break;
 				}
-						
+							
 				setXVelocity(0);
-				
+					
 			}
 			
 		});
