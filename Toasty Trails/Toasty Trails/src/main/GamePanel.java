@@ -132,7 +132,7 @@ public class GamePanel extends Application{
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 3840);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                gc.drawImage(img, 0, 0);
+                gc.drawImage(img, 0 + cam.getTranslateX() / 4, 0 + cam.getTranslateY() / 4);
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
         			
