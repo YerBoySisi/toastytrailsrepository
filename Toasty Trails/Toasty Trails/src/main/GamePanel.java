@@ -145,20 +145,6 @@ public class GamePanel extends Application{
                 
                 updateGame(t);
                 
-                /*
-                if(toasty.y() < 1300) {
-                	cam.setTranslateZ(-2000);
-                }  else {
-                	
-	                if(toasty.x() > 1472 && toasty.x() < lvls[currentLvl].getLevelWidth()) {
-	                	cam.setTranslateZ(-1200);
-	                } else {
-	                	cam.setTranslateZ(-600);
-	                }
-	                
-                }
-                */
-                
             }
             
         }.start();
@@ -358,6 +344,50 @@ public class GamePanel extends Application{
 			
 		}
 		
+		//LEVEL ONE BONUS LEVEL CAMERA
+		
+		if(toasty.y() < 1300) {
+        	
+        	if(toasty.y() < 1100) {
+        		
+        		if(cam.getTranslateZ() > -1000) {
+            		cam.setTranslateZ(cam.getTranslateZ() - 50);
+            	} else {
+            		cam.setTranslateZ(-1000);
+            	}
+        		
+        	} else {
+        		
+        		if(cam.getTranslateZ() < -600) {
+            		cam.setTranslateZ(cam.getTranslateZ() + 50);
+            	} else {
+            		cam.setTranslateZ(-600);
+            	}
+        		
+        	}
+        	
+        }  else {
+        	
+            if(toasty.x() > 1472 && toasty.x() < lvls[currentLvl].getLevelWidth()) {
+            	
+            	if(cam.getTranslateZ() > -1200) {
+            		cam.setTranslateZ(cam.getTranslateZ() - 50);
+            	} else {
+            		cam.setTranslateZ(-1200);
+            	}
+            	
+            } else {
+            	
+            	if(cam.getTranslateZ() < -600) {
+            		cam.setTranslateZ(cam.getTranslateZ() + 50);
+            	} else {
+            		cam.setTranslateZ(-600);
+            	}
+            	
+            }
+            
+        }
+		
 	}
 	
 	public static void setState(int n) {
@@ -393,8 +423,8 @@ public class GamePanel extends Application{
 		
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
-		bknife = new Butterknife(500, 150, 0, 0);
-		bknife.aI();
+		//bknife = new Butterknife(500, 150, 0, 0);
+		//bknife.aI();
 		lvls[currentLvl] = new LevelOne();
 		
 	}
