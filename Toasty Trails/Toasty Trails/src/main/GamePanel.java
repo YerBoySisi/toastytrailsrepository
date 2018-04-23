@@ -5,6 +5,7 @@ import javafx.util.Duration;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -71,8 +72,8 @@ public class GamePanel extends Application{
 		lvls[0] = new LevelOne();
 		lvls[1] = new LevelTwo();
 		
-		Rectangle bg = new Rectangle(lvls[currentLvl].getLevelWidth(), 3840);
-		bg.setFill(Color.CYAN);
+		Image img = new Image("file:Toasty Trails/Resources/BGs/bg.png");
+		
 		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 3840);
 		gc = canvas.getGraphicsContext2D();
 		
@@ -83,7 +84,7 @@ public class GamePanel extends Application{
 		
 		menu = new GameMenu();
 		menuRoot.getChildren().addAll(menu);
-		gameRoot.getChildren().addAll(bg, canvas);
+		gameRoot.getChildren().addAll(canvas);
 		
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
@@ -130,6 +131,8 @@ public class GamePanel extends Application{
             	
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 3840);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
+                
+                gc.drawImage(img, 0, 0);
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
         			
