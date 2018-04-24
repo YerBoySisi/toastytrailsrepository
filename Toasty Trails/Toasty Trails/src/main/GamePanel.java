@@ -9,17 +9,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import javafx.application.*;
 import javafx.event.EventHandler;
 
-import java.io.Console;
 import java.io.File;
 import java.util.HashMap;
 
+import entity.collectable.Letter;
 import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
@@ -46,10 +44,10 @@ public class GamePanel extends Application{
 	private static GraphicsContext gc;
 	public static Butterknife bknife;
 	public static Player toasty;
+	public static Letter[] ltrs;
 	private static Camera cam;
 	
 	public static MediaPlayer mediaPlayer;
-	public static MediaPlayer mp;
 	
 	private static HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
@@ -92,6 +90,11 @@ public class GamePanel extends Application{
 		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
 		bknife = new Butterknife(500, 0, 0, 0);
 		
+		ltrs = new Letter[2];
+		
+		ltrs[0] = new Letter(3977, 2208, 1);
+		ltrs[1] = new Letter(2888, 960, 2);
+		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-500);
 		cam.setFarClip(2000);
@@ -132,7 +135,7 @@ public class GamePanel extends Application{
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 3840);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                gc.drawImage(img, 0 + cam.getTranslateX() / 4, 0 + cam.getTranslateY() / 4);
+                gc.drawImage(img, cam.getTranslateX() / 4, cam.getTranslateY() / 4);
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
         			
@@ -158,13 +161,19 @@ public class GamePanel extends Application{
 	
 	private void updateGame(double t) {
 		
-		 movement();
-         collision();
-         toasty.render(t, gc);
-         movement2();
-         enemyCollision();
-         bknife.render(t, gc);
-         camera();
+		movement();
+        collision();
+        toasty.render(t, gc);
+        //movement2();
+        //enemyCollision();
+        //bknife.render(t, gc);
+        
+        for(Letter l : ltrs) {
+        	l.moveY();
+        	l.render(t, gc);
+        }
+        
+        camera();
 		
 	}
 
@@ -424,10 +433,16 @@ public class GamePanel extends Application{
 	
 	public static void spawnPlayer() {
 		
+		Media sfx = new Media(new File("Toasty Trails/Resources/Sounds/toasty.mp3").toURI().toString());
+		MediaPlayer mp = new MediaPlayer(sfx);
+		mp.play();
+		
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
-		//bknife = new Butterknife(500, 150, 0, 0);
-		//bknife.aI();
+		
+		ltrs[0] = new Letter(3977, 2208, 1);
+		ltrs[1] = new Letter(2888, 960, 2);
+		
 		lvls[currentLvl] = new LevelOne();
 		
 	}

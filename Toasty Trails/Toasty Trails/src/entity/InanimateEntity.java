@@ -7,12 +7,6 @@ public abstract class InanimateEntity extends Entity {
 	protected boolean permeable;
 	public boolean invisible;
 
-	public InanimateEntity() {
-		
-		
-		
-	}
-	
 	public boolean isPermeable() {
 		
 		return permeable;

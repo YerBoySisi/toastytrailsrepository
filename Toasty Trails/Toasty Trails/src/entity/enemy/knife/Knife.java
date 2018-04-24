@@ -135,12 +135,10 @@ public abstract class Knife extends Enemy {
 					walk.interrupt();
 					break;
 				} else {
-					System.out.println("Target out of sight");
+					System.out.println();
 				}
 				
 			}
-			
-			System.out.println("TOASTY SPOTTED, CHARGE!!!");
 			
 			chargeAttack(lastDirection);
 			
