@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import javafx.application.*;
@@ -18,7 +20,6 @@ import java.io.File;
 import java.util.HashMap;
 
 import entity.collectable.Letter;
-import entity.enemy.knife.Butterknife;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.LevelOne;
@@ -42,7 +43,6 @@ public class GamePanel extends Application{
 	public static Scene gamescene;
 	private static Canvas canvas;
 	private static GraphicsContext gc;
-	public static Butterknife bknife;
 	public static Player toasty;
 	public static Letter[] ltrs;
 	private static Camera cam;
@@ -65,14 +65,18 @@ public class GamePanel extends Application{
 		
 		Media bgm = new Media(new File("Toasty Trails/Resources/Music/bgm.mp3").toURI().toString());
 		mediaPlayer = new MediaPlayer(bgm);
-		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
 		
+		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
 		lvls[0] = new LevelOne();
 		lvls[1] = new LevelTwo();
 		
 		Image img = new Image("file:Toasty Trails/Resources/BGs/bg.png");
 		
 		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 3840);
+		Rectangle bg = new Rectangle(0, 0, Color.BLACK);
+		bg.setX(-10000);
+		bg.setWidth(99999);
+		bg.setHeight(99999);
 		gc = canvas.getGraphicsContext2D();
 		
 		Pane menuRoot = new Pane();
@@ -82,18 +86,17 @@ public class GamePanel extends Application{
 		
 		menu = new GameMenu();
 		menuRoot.getChildren().addAll(menu);
-		gameRoot.getChildren().addAll(canvas);
+		gameRoot.getChildren().addAll(bg, canvas);
 		
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
 		
 		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
-		bknife = new Butterknife(500, 0, 0, 0);
 		
 		ltrs = new Letter[2];
 		
-		ltrs[0] = new Letter(3977, 2208, 1);
-		ltrs[1] = new Letter(2888, 960, 2);
+		ltrs[0] = new Letter(-999, -999, 0);
+		ltrs[1] = new Letter(-999, -999, 0);
 		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-500);
@@ -297,7 +300,9 @@ public class GamePanel extends Application{
     						toasty.setY(lvls[currentLvl].map.get(row).get(col).y() - toasty.getHeight());
     						toasty.setYVelocity(0);
     						toasty.standing = true;
-    					}
+    					} else {
+        					toasty.standing = false;
+        				}
     									
     					//jumping into bottom of block
     					if(!lvls[currentLvl].map.get(row).get(col).isPermeable() && 
@@ -310,8 +315,6 @@ public class GamePanel extends Application{
     					
     					lvls[currentLvl].map.get(row).get(col).performAction(toasty);
     					
-    				} else {
-    					toasty.standing = false;
     				}
     				
     			}
@@ -433,98 +436,13 @@ public class GamePanel extends Application{
 	
 	public static void spawnPlayer() {
 		
-		Media sfx = new Media(new File("Toasty Trails/Resources/Sounds/toasty.mp3").toURI().toString());
-		MediaPlayer mp = new MediaPlayer(sfx);
-		mp.play();
-		
 		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
-		ltrs[0] = new Letter(3977, 2208, 1);
-		ltrs[1] = new Letter(2888, 960, 2);
+		ltrs[0] = new Letter(4008, 1600, 1);
+		ltrs[1] = new Letter(1416, 736, 2);
 		
 		lvls[currentLvl] = new LevelOne();
-		
-	}
-	
-	
-	public void movement2() {
-		
-		bknife.accerlateY(GRAVITY);
-		bknife.moveY();
-		
-		if(bknife.getXVelocity() < 0) {
-			bknife.lastDirection = LEFT;
-		}
-		
-		if(bknife.getXVelocity() > 0) {
-			bknife.lastDirection = RIGHT;
-		}
-		
-		bknife.moveX();
-		
-	}
-	
-	public void enemyCollision() {
-		
-		for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
-			
-        	for(int col = 0; col < lvls[currentLvl].map.get(row).size(); col++) {
-    			
-        		if(lvls[currentLvl].map.get(row).get(col) != null) {
-    				
-        			if(bknife.colliding(lvls[currentLvl].map.get(row).get(col))) {
-    					
-    					if(!bknife.onTopOf(lvls[currentLvl].map.get(row).get(col))) {
-    						
-    						//walking into left of block
-	    					if(bknife.rightBoundary() <= lvls[currentLvl].map.get(row).get(col).leftBoundary() + bknife.getXVelocity()) {
-	    						bknife.setX(lvls[currentLvl].map.get(row).get(col).leftBoundary() - bknife.getWidth());
-	    						bknife.setXVelocity(0);
-	    					}
-	    					
-	    					//walking into right of block
-	    					if(bknife.leftBoundary() >= lvls[currentLvl].map.get(row).get(col).rightBoundary() + bknife.getXVelocity()) {
-	    						bknife.setX(lvls[currentLvl].map.get(row).get(col).rightBoundary());
-	    						bknife.setXVelocity(0);
-	    					}
-    					
-    					}
-    					
-    					//standing on top of block
-    					if(bknife.bottomBoundary() <= lvls[currentLvl].map.get(row).get(col).topBoundary() + bknife.getYVelocity() &&
-    	    					   bknife.rightBoundary() > lvls[currentLvl].map.get(row).get(col).leftBoundary() && 
-    	    					   bknife.leftBoundary() < lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
-    						bknife.setY(lvls[currentLvl].map.get(row).get(col).y() - bknife.getHeight());
-    						bknife.setYVelocity(0);
-    						bknife.standing = true;
-    					}
-    									
-    					//jumping into bottom of block
-    					if(bknife.topBoundary() >= lvls[currentLvl].map.get(row).get(col).bottomBoundary() + bknife.getYVelocity() &&
-    					   bknife.rightBoundary() < lvls[currentLvl].map.get(row).get(col).leftBoundary() || 
-    					   bknife.leftBoundary() > lvls[currentLvl].map.get(row).get(col).rightBoundary()) {
-    						bknife.setY(lvls[currentLvl].map.get(row).get(col).y() + bknife.getHeight() - 12);
-    						bknife.setYVelocity(bknife.getMass());
-    					}
-    					
-    				} else {
-    					bknife.standing = false;
-    				}
-    				
-    			}
-            	
-    		}
-        	
-		}
-		
-		if(bknife.colliding(toasty)) {
-			
-			if(!toasty.invincible) {
-				bknife.attack(toasty);
-			}
-			
-		}
 		
 	}
 	

@@ -46,7 +46,10 @@ public abstract class LivingEntity extends Entity {
 	 */
 	public boolean onTopOf(Entity e) {
 		
-		return (int)bottomBoundary() == (int)e.topBoundary();
+		return ((int)bottomBoundary() == (int)e.topBoundary()) || 
+				(bottomBoundary() <= e.topBoundary() + velocityY &&
+				 (leftBoundary() >= e.leftBoundary() && leftBoundary() <= e.rightBoundary() ||
+				 rightBoundary() >= e.leftBoundary() && rightBoundary() <= e.rightBoundary()));
 		
 	}
 	

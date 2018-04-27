@@ -135,7 +135,7 @@ public abstract class Knife extends Enemy {
 					walk.interrupt();
 					break;
 				} else {
-					System.out.println();
+					System.out.print("");
 				}
 				
 			}

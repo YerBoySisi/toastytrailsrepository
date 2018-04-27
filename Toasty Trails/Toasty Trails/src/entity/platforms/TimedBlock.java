@@ -1,5 +1,6 @@
 package entity.platforms;
 
+import audio.soundfx.Crumble;
 import entity.LivingEntity;
 
 public class TimedBlock extends Block {
@@ -12,6 +13,30 @@ public class TimedBlock extends Block {
 		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		
+		sounds.add(new Crumble());
+		
+	}
+	
+	public void crumble() {
+		
+		Thread crumble = new Thread(() -> {
+			
+			started = true;
+			
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			sounds.get(0).play();
+			sprite = null;
+			invisible = true;
+			
+		});
+		
+		crumble.start();
+		
 	}
 	
 	@Override
@@ -19,18 +44,19 @@ public class TimedBlock extends Block {
 		
 		if(!started) {
 			
-			new Thread(() -> {
-				
-				started = true;
+			crumble();
+			
+			new Thread(() -> { 
 				
 				try {
-					Thread.sleep(200);
+					Thread.sleep(4000);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 				
-				sprite = null;
-				invisible = true;
+				setSprite(SPRITE[0]);
+				invisible = false;
+				started = false;
 				
 			}).start();
 			

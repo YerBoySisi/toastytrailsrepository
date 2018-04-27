@@ -1,22 +1,23 @@
 package entity.platforms;
 
-import java.io.File;
-
+import audio.Sound;
 import entity.Damager;
 import entity.LivingEntity;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class HurtBlock extends Block implements Damager {
 	
-	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/4.png"};
+	public static final String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/4.png"};
+	public static final int HURT_SOUND = 0;
+	
 	private int dmg;
 	
 	public HurtBlock(double x, double y) {
 		
 		super(x, y, 0);
 		setSprite(SPRITE[0]);
-		setDamage(40);
+		setDamage(20);
+		
+		sounds.add(HURT_SOUND, new Sound("Toasty Trails/Resources/Sounds/hit.wav"));
 		
 	}
 	
@@ -29,14 +30,11 @@ public class HurtBlock extends Block implements Damager {
 	@Override
 	public void attack(LivingEntity e) {
 		
-		Media sfx = new Media(new File("Toasty Trails/Resources/Sounds/hit.mp3").toURI().toString());
-		MediaPlayer mp = new MediaPlayer(sfx);
-		
 		if(!e.invincible) {
 			
-			mp.play();
+			sounds.get(HURT_SOUND).play();
 			e.changeHP(-dmg);
-			e.setXVelocity(-e.lastDirection * 5);
+			e.setXVelocity(-e.lastDirection * 8.5);
 			e.setYVelocity(-3);
 			e.activateInvincibility();
 		

@@ -1,5 +1,6 @@
 package entity.platforms;
 
+import audio.soundfx.Crumble;
 import entity.LivingEntity;
 
 public class TimedBlock3 extends Block {
@@ -16,6 +17,55 @@ public class TimedBlock3 extends Block {
 		super(x, y, 0);
 		setSprite(SPRITE[0]);
 		
+		sounds.add(new Crumble());
+		
+	}
+	
+	public void crumble() {
+		
+		Thread crumble = new Thread(() -> {
+			
+			started = true;
+			setSprite(SPRITE[1]);
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			setSprite(SPRITE[2]);
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			setSprite(SPRITE[3]);
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			setSprite(SPRITE[4]);
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			sprite = null;
+			invisible = true;
+			sounds.get(0).play();
+			
+		});
+		
+		crumble.start();
+		
 	}
 	
 	@Override
@@ -23,43 +73,19 @@ public class TimedBlock3 extends Block {
 		
 		if(!started) {
 			
-			new Thread(() -> {
-				
-				started = true;
-				setSprite(SPRITE[1]);
+			crumble();
+			
+			new Thread(() -> { 
 				
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(6000);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 				
-				setSprite(SPRITE[2]);
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				
-				setSprite(SPRITE[3]);
-				
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				
-				setSprite(SPRITE[4]);
-				
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				
-				sprite = null;
-				invisible = true;
+				setSprite(SPRITE[0]);
+				invisible = false;
+				started = false;
 				
 			}).start();
 			

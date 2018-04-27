@@ -1,9 +1,11 @@
 package entity;
 
+import java.util.ArrayList;
+
+import audio.Sound;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
 
 public abstract class Entity {
 	
@@ -23,6 +25,7 @@ public abstract class Entity {
 	public boolean walkingLeft;
 	public boolean walkingRight;
 	public boolean invincible;
+	protected ArrayList<Sound> sounds = new ArrayList<>();
 	
 	/**
 	 * Returns the Entity's name
