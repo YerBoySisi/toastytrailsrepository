@@ -2,7 +2,7 @@ package main;
 
 import entity.player.Player;
 import entity.player.Player.Form;
-import gamestate.LevelOne;
+import gamestate.levels.LevelOne;
 
 public class TestGame {
 

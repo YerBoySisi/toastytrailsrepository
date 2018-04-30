@@ -1,4 +1,4 @@
-package gamestate;
+package gamestate.levels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import entity.InanimateEntity;
 import entity.enemy.Enemy;
+import entity.platforms.Block;
 import map.Map;
 import utility.StringFromFileLoader;
 
@@ -164,8 +165,32 @@ public abstract class LevelState {
         	for(int col = 0; col < map.get(row).size(); col++) {
     			
         		if(map.get(row).get(col) != null) {
-        			map.get(row).get(col).setX(32 * col);
-        			map.get(row).get(col).setY(32 * row);
+        			map.get(row).get(col).setX(map.get(row).get(col).getWidth() * col - col);
+        			map.get(row).get(col).setY(map.get(row).get(col).getHeight() * row - row);
+        		}
+            	
+    		}
+        	
+		}
+		
+		for(int row = 0; row < map.size() - 1; row++) {
+			
+        	for(int col = 0; col < map.get(row).size() - 1; col++) {
+        		
+        		if(map.get(row).get(col) instanceof Block && ((Block)map.get(row).get(col)).getType() > 2) {
+        				
+        			if(map.get(row + 1).get(col) instanceof Block && ((Block)map.get(row + 1).get(col)).getType() > 2 &&
+        			  ((Block)map.get(row).get(col)).getType() % 2 == 1 &&
+        			  (((Block) map.get(row + 1).get(col)).getType()) == (((Block) map.get(row).get(col)).getType())) {
+        				((Block)map.get(row + 1).get(col)).setType(((Block)map.get(row).get(col)).getType() + 1);
+        			}
+        			
+        			if(map.get(row).get(col + 1) instanceof Block && ((Block)map.get(row).get(col + 1)).getType() > 2 &&
+              		  ((Block)map.get(row).get(col)).getType() % 2 == 1 &&
+        			  (((Block) map.get(row).get(col + 1)).getType()) == (((Block) map.get(row).get(col)).getType())) {
+              			((Block)map.get(row).get(col + 1)).setType(((Block)map.get(row).get(col)).getType() + 1);
+              		}
+        				
         		}
             	
     		}

@@ -62,7 +62,7 @@ public class Letter extends Collectible {
 					setCollected();
 					mp.play();
 				} else {
-					System.out.println();
+					System.out.print("");
 				}
 				
 			}

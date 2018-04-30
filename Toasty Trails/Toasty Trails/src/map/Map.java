@@ -21,6 +21,9 @@ public class Map {
 	public static final int GRASS_BLOCK = 10;
 	public static final int DIRT_BLOCK = 11;
 	public static final int STONE_BLOCK = 12;
+	public static final int KITCHEN_TILE = 13;
+	public static final int BRICK = 14;
+	public static final int PLANK_TILE = 15;
 	public static final int PERMEABLE_BLOCK = 2;
 	public static final int TIMED_BLOCK = 30;
 	public static final int TIMED_BLOCK_1 = 31;
@@ -62,6 +65,18 @@ public class Map {
 				
 				if(map[row][col] == STONE_BLOCK) {
 					objMap[row][col] = new Block(0, 0, 2);
+				}
+				
+				if(map[row][col] == KITCHEN_TILE) {
+					objMap[row][col] = new Block(0, 0, 3);
+				}
+				
+				if(map[row][col] == BRICK) {
+					objMap[row][col] = new Block(0, 0, 5);
+				}
+				
+				if(map[row][col] == PLANK_TILE) {
+					objMap[row][col] = new Block(0, 0, 7);
 				}
 				
 				if(map[row][col] == PERMEABLE_BLOCK) {

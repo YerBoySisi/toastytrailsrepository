@@ -19,13 +19,12 @@ import javafx.event.EventHandler;
 import java.io.File;
 import java.util.HashMap;
 
-import entity.collectable.Letter;
 import entity.player.Player;
 import entity.player.Player.Form;
-import gamestate.LevelOne;
-import gamestate.LevelState;
-import gamestate.LevelTwo;
 import gamestate.MenuState.GameMenu;
+import gamestate.levels.IntroLevel;
+import gamestate.levels.LevelState;
+import gamestate.levels.LevelTwo;
 
 public class GamePanel extends Application{
 	
@@ -35,7 +34,7 @@ public class GamePanel extends Application{
 	public static final int LEFT = -1; public static final int RIGHT = 1;
 	public static final int GRAVITY = 5;
 	
-	public static final LevelState[] lvls = {new LevelOne(), new LevelTwo()};
+	public static final LevelState[] lvls = {new IntroLevel(), new LevelTwo()};
 	public static int currentLvl = 0;
 	
 	public static Stage window;
@@ -44,7 +43,6 @@ public class GamePanel extends Application{
 	private static Canvas canvas;
 	private static GraphicsContext gc;
 	public static Player toasty;
-	public static Letter[] ltrs;
 	private static Camera cam;
 	
 	public static MediaPlayer mediaPlayer;
@@ -67,14 +65,13 @@ public class GamePanel extends Application{
 		mediaPlayer = new MediaPlayer(bgm);
 		
 		mediaPlayer.setCycleCount((int)Duration.INDEFINITE.toSeconds());
-		lvls[0] = new LevelOne();
-		lvls[1] = new LevelTwo();
 		
-		Image img = new Image("file:Toasty Trails/Resources/BGs/bg.png");
+		Image img = new Image("file:Toasty Trails/Resources/BGs/kitchenwall.png");
 		
 		canvas = new Canvas(lvls[currentLvl].getLevelWidth(), 3840);
 		Rectangle bg = new Rectangle(0, 0, Color.BLACK);
 		bg.setX(-10000);
+		bg.setY(-10000);
 		bg.setWidth(99999);
 		bg.setHeight(99999);
 		gc = canvas.getGraphicsContext2D();
@@ -91,15 +88,12 @@ public class GamePanel extends Application{
 		menuscene = new Scene(menuRoot);
 		gamescene = new Scene(gameRoot);
 		
-		toasty = new Player(Form.NORMAL, -999, -999, 0, 0);
 		
-		ltrs = new Letter[2];
-		
-		ltrs[0] = new Letter(-999, -999, 0);
-		ltrs[1] = new Letter(-999, -999, 0);
+		toasty = new Player(Form.NORMAL, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
+				 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
 		cam = new PerspectiveCamera(true);
-		cam.setTranslateZ(-500);
+		cam.setTranslateZ(-600);
 		cam.setFarClip(2000);
 		cam.setScaleX(1);
 		cam.setScaleY(1);
@@ -133,12 +127,12 @@ public class GamePanel extends Application{
 		
 		new AnimationTimer() {
         	
-            public void handle(long currentNanoTime) {
+			public void handle(long currentNanoTime) {
             	
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 3840);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
                 
-                gc.drawImage(img, cam.getTranslateX() / 4, cam.getTranslateY() / 4);
+                gc.drawImage(img, cam.getTranslateX() / 4 - 2000, cam.getTranslateY() / 4 - 1000);
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
         			
@@ -170,11 +164,6 @@ public class GamePanel extends Application{
         //movement2();
         //enemyCollision();
         //bknife.render(t, gc);
-        
-        for(Letter l : ltrs) {
-        	l.moveY();
-        	l.render(t, gc);
-        }
         
         camera();
 		
@@ -294,7 +283,7 @@ public class GamePanel extends Application{
     					}
     					
     					//standing on top of block
-    					if(toasty.bottomBoundary() <= lvls[currentLvl].map.get(row).get(col).topBoundary() + toasty.getYVelocity() &&
+    					if(toasty.bottomBoundary() <= lvls[currentLvl].map.get(row).get(col).topBoundary() + toasty.getYVelocity() + 3 &&
     	    					   toasty.rightBoundary() > lvls[currentLvl].map.get(row).get(col).leftBoundary() + 3 && 
     	    					   toasty.leftBoundary() < lvls[currentLvl].map.get(row).get(col).rightBoundary() - 3) {
     						toasty.setY(lvls[currentLvl].map.get(row).get(col).y() - toasty.getHeight());
@@ -326,8 +315,8 @@ public class GamePanel extends Application{
 		if(toasty.leftBoundary() < 0) {
 			toasty.setX(0);
 			toasty.setXVelocity(0);
-		} else if(toasty.rightBoundary() > canvas.getWidth()) {
-			toasty.setX(canvas.getWidth() - toasty.getWidth());
+		} else if(toasty.rightBoundary() > canvas.getWidth() - 167) {
+			toasty.setX(canvas.getWidth() - 167 - toasty.getWidth());
 			toasty.setXVelocity(0);
 		}
 		
@@ -335,14 +324,15 @@ public class GamePanel extends Application{
 	
 	public void camera() {
 		
-		if(toasty.x() >= 164 && toasty.x() < canvas.getWidth() - 164) {
+		if(toasty.x() >= Math.round(179 * (cam.getTranslateZ() / -500)) && 
+		   toasty.x() < Math.round(canvas.getWidth() - 345 * (cam.getTranslateZ() / -500) + 33)) {
 			cam.setTranslateX((int)toasty.x());
 		} else {
 			
-			if(toasty.x() < 164) {
-				cam.setTranslateX(164);
+			if(toasty.x() < Math.round(179 * (cam.getTranslateZ() / -500))) {
+				cam.setTranslateX(Math.round(179 * (cam.getTranslateZ() / -500)));
 			} else {
-				cam.setTranslateX(canvas.getWidth() - 164);
+				cam.setTranslateX(canvas.getWidth() - 345 * (cam.getTranslateZ() / -500) + 33);
 			}
 			
 		}
@@ -358,50 +348,6 @@ public class GamePanel extends Application{
 			}
 			
 		}
-		
-		//LEVEL ONE BONUS LEVEL CAMERA
-		
-		if(toasty.y() < 1300) {
-        	
-        	if(toasty.y() < 1100) {
-        		
-        		if(cam.getTranslateZ() > -1000) {
-            		cam.setTranslateZ(cam.getTranslateZ() - 50);
-            	} else {
-            		cam.setTranslateZ(-1000);
-            	}
-        		
-        	} else {
-        		
-        		if(cam.getTranslateZ() < -600) {
-            		cam.setTranslateZ(cam.getTranslateZ() + 50);
-            	} else {
-            		cam.setTranslateZ(-600);
-            	}
-        		
-        	}
-        	
-        }  else {
-        	
-            if(toasty.x() > 1472 && toasty.x() < lvls[currentLvl].getLevelWidth()) {
-            	
-            	if(cam.getTranslateZ() > -1200) {
-            		cam.setTranslateZ(cam.getTranslateZ() - 50);
-            	} else {
-            		cam.setTranslateZ(-1200);
-            	}
-            	
-            } else {
-            	
-            	if(cam.getTranslateZ() < -600) {
-            		cam.setTranslateZ(cam.getTranslateZ() + 50);
-            	} else {
-            		cam.setTranslateZ(-600);
-            	}
-            	
-            }
-            
-        }
 		
 	}
 	
@@ -436,13 +382,10 @@ public class GamePanel extends Application{
 	
 	public static void spawnPlayer() {
 		
-		toasty = new Player(Form.TOASTED, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
+		toasty = new Player(Form.NORMAL, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
-		ltrs[0] = new Letter(4008, 1600, 1);
-		ltrs[1] = new Letter(1416, 736, 2);
-		
-		lvls[currentLvl] = new LevelOne();
+		lvls[currentLvl] = new IntroLevel();
 		
 	}
 	

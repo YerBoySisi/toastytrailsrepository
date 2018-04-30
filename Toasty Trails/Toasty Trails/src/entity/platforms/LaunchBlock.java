@@ -14,7 +14,7 @@ public class LaunchBlock extends Block {
 		
 		super(x, y, 0);
 		setSprite(SPRITE[0]);
-		launchHeight = 30;
+		launchHeight = 29;
 		
 		sounds.add(new Sound("Toasty Trails/Resources/Sounds/bounce.wav"));
 		
