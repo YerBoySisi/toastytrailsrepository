@@ -1,19 +1,22 @@
 package entity.enemy.knife;
 
+import entity.Damager;
 import entity.Entity;
 import entity.enemy.Enemy;
 import main.GamePanel;
 
-public abstract class Knife extends Enemy {
+public abstract class Knife extends Enemy implements Damager {
 	
 	//constants
 	public static final String NAME = "Knife";
-	public static final int DAMAGE = 20;
 	public static final int HP = 10;
+
+	protected int chargeSpeed;
 	
-	public Knife(int x, int y, double xVelocity, double yVelocity) {
+	public Knife(int x, int y, double xVelocity, double yVelocity, int dmg, int spd) {
 		
-		super(NAME, x, y, xVelocity, yVelocity, DAMAGE, HP);
+		super(NAME, x, y, xVelocity, yVelocity, dmg, HP);
+		chargeSpeed = spd;
 		
 	}
 	
@@ -46,7 +49,7 @@ public abstract class Knife extends Enemy {
 	
 	public void charge(int direction) {
 		
-		setXVelocity(direction * 6);
+		setXVelocity(direction * chargeSpeed);
 		
 	}
 	

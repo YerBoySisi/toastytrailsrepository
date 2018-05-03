@@ -6,8 +6,10 @@ import entity.LivingEntity;
 
 public abstract class Enemy extends LivingEntity implements Damager {
 	
-	private int damage;
-	private int force;
+	protected int damage;
+	protected int force;
+	protected boolean solid;
+	protected boolean attacking;
 	
 	protected Enemy(String name, int x, int y, double xVelocity, double yVelocity, int damage, int hp) {
 		
@@ -23,8 +25,13 @@ public abstract class Enemy extends LivingEntity implements Damager {
 
 	public void attack(LivingEntity e) {
 		
+		System.out.println(e.getHP());
+		
 		if(!e.invincible) {
 			
+			attacking = true;
+			
+			e.activateInvincibility();
 			e.changeHP(-damage);
 			
 			if(e.bottomBoundary() <= this.topBoundary() + e.getYVelocity()) { 
@@ -39,8 +46,13 @@ public abstract class Enemy extends LivingEntity implements Damager {
 				
 			}
 			
-			e.setYVelocity(-5);
-			e.activateInvincibility();
+			if(force < 6) {
+				e.setYVelocity(-force);
+			} else {
+				e.setYVelocity(-6);
+			}
+			
+			attacking = false;
 		
 		}
 		
@@ -61,5 +73,17 @@ public abstract class Enemy extends LivingEntity implements Damager {
 	public abstract void aI();
 	
 	public abstract boolean inVision(Entity e);
+
+	public boolean isSolid() {
+		
+		return solid;
+		
+	}
+
+	public boolean attacking() {
+		
+		return attacking;
+		
+	}
 	
 }

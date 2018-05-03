@@ -6,6 +6,8 @@ public class Butterknife extends Knife {
 	
 	//constants
 	public static final int LEFT = -1;
+	public static final int DAMAGE = 10;
+	public static final int CHARGE_SPEED = 6;
 	
 	//sprite file paths
 	public final String FILE_PATH = "file:Toasty Trails/Resources/Sprites/Enemies/Butterknife/";
@@ -24,7 +26,7 @@ public class Butterknife extends Knife {
 	
 	public Butterknife(int x, int y, double xVelocity, double yVelocity) {
 		
-		super(x, y, xVelocity, yVelocity);
+		super(x, y, xVelocity, yVelocity, DAMAGE, CHARGE_SPEED);
 		mass = 0.125;
 		
 	}
@@ -35,13 +37,17 @@ public class Butterknife extends Knife {
 		
 		if(velocityX == 0 && velocityY == 0) {
 			action = STANDING;
+			setDamage(10);
 		} else if(Math.abs(velocityX) < 6) {
 			action = WALKING;
+			setDamage(10);
 		} else if(Math.abs(velocityX) >= 6) {
 			action = CHARGING;
+			setDamage(20);
 			mass = 0;
 		} else if(velocityY != 0) {
 			action = HOPPING;
+			setDamage(10);
 		}
 		
 		return action;

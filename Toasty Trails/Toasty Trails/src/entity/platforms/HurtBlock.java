@@ -34,7 +34,13 @@ public class HurtBlock extends Block implements Damager {
 			
 			sounds.get(HURT_SOUND).play();
 			e.changeHP(-dmg);
-			e.setXVelocity(-e.lastDirection * 8.5);
+			
+			if(e.leftBoundary() <= width / 2) {
+				e.setXVelocity(-8.5);
+			} else {
+				e.setXVelocity(8.5);
+			}
+			
 			e.setYVelocity(-3);
 			e.activateInvincibility();
 		

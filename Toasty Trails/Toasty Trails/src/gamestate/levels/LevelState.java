@@ -16,6 +16,7 @@ public abstract class LevelState {
 	protected String name;
 	protected double gravity;
 	protected ArrayList<Enemy> enemies;
+	protected Enemy[] enemyArr;
 	protected int numRows;
 	protected int numCols;
 	protected int width;
@@ -36,6 +37,7 @@ public abstract class LevelState {
 		gravity = grav;
 		
 		this.enemies = new ArrayList<Enemy>(Arrays.asList(enemies));
+		enemyArr = enemies;
 		
 		numRows = rows;
 		numCols = cols;
@@ -113,6 +115,12 @@ public abstract class LevelState {
 		this.gravity = gravity;
 		
 	}
+	
+	public void initializeEnemies() {
+		
+		enemies = new ArrayList<Enemy>(Arrays.asList(enemyArr));
+		
+	}
 
 	public ArrayList<Enemy> getEnemies() {
 		
@@ -180,13 +188,11 @@ public abstract class LevelState {
         		if(map.get(row).get(col) instanceof Block && ((Block)map.get(row).get(col)).getType() > 2) {
         				
         			if(map.get(row + 1).get(col) instanceof Block && ((Block)map.get(row + 1).get(col)).getType() > 2 &&
-        			  ((Block)map.get(row).get(col)).getType() % 2 == 1 &&
         			  (((Block) map.get(row + 1).get(col)).getType()) == (((Block) map.get(row).get(col)).getType())) {
         				((Block)map.get(row + 1).get(col)).setType(((Block)map.get(row).get(col)).getType() + 1);
         			}
         			
         			if(map.get(row).get(col + 1) instanceof Block && ((Block)map.get(row).get(col + 1)).getType() > 2 &&
-              		  ((Block)map.get(row).get(col)).getType() % 2 == 1 &&
         			  (((Block) map.get(row).get(col + 1)).getType()) == (((Block) map.get(row).get(col)).getType())) {
               			((Block)map.get(row).get(col + 1)).setType(((Block)map.get(row).get(col)).getType() + 1);
               		}

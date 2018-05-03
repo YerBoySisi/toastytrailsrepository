@@ -4,15 +4,20 @@ import entity.InanimateEntity;
 
 public class Block extends InanimateEntity {
 	
-	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/grassblock.png", 
-										   "file:Toasty Trails/Resources/Tilesets/dirtblock.png", 
-										   "file:Toasty Trails/Resources/Tilesets/stoneblock.png",
-										   "file:Toasty Trails/Resources/Tilesets/whitetile.png",
-										   "file:Toasty Trails/Resources/Tilesets/blacktile.png",
-										   "file:Toasty Trails/Resources/Tilesets/brick.png",
-										   "file:Toasty Trails/Resources/Tilesets/brick2.png",
-										   "file:Toasty Trails/Resources/Tilesets/planktile.png",
-										   "file:Toasty Trails/Resources/Tilesets/planktile2.png"};
+	public final static String SPRITE[] = {"file:Toasty Trails/Resources/Tilesets/grassblock.png", //0
+										   "file:Toasty Trails/Resources/Tilesets/dirtblock.png",  //1
+										   "file:Toasty Trails/Resources/Tilesets/stoneblock.png", //2
+										   "file:Toasty Trails/Resources/Tilesets/whitetile.png",  //3
+										   "file:Toasty Trails/Resources/Tilesets/blacktile.png",  //4
+										   "file:Toasty Trails/Resources/Tilesets/brick.png",      //5
+										   "file:Toasty Trails/Resources/Tilesets/brick2.png",     //6
+										   "file:Toasty Trails/Resources/Tilesets/planktile.png",  //7
+										   "file:Toasty Trails/Resources/Tilesets/planktile2.png", //8
+										   "file:Toasty Trails/Resources/Tilesets/brokenconcreteblock.png",    //9
+										   "file:Toasty Trails/Resources/Tilesets/brokenconcreteblockh.png",   //10
+										   "file:Toasty Trails/Resources/Tilesets/brokenconcreteblockh2.png",  //11
+										   "file:Toasty Trails/Resources/Tilesets/brokenconcreteblockv.png",   //12
+										   "file:Toasty Trails/Resources/Tilesets/brokenconcreteblockv2.png"}; //13
 	
 	private int type;
 	

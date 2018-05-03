@@ -41,6 +41,7 @@ public class Player extends LivingEntity {
 	//variables
 	private Form form;
 	private double accelerationX;
+	private int sporeCount;
 	
 	public Player(Form form, int x, int y, double xVelocity, double yVelocity) {
 		
@@ -51,6 +52,7 @@ public class Player extends LivingEntity {
 		setStats();
 		maxHP = MAX_HP;
 		hp = maxHP;
+		sporeCount = 0;
 		this.x = x;
 		this.y = y;
 		
@@ -128,6 +130,18 @@ public class Player extends LivingEntity {
 	public Form getForm() {
 		
 		return form;
+		
+	}
+	
+	public void changeSporeCount(int count) {
+		
+		sporeCount += count;
+		
+	}
+	
+	public int getSporeCount() {
+		
+		return sporeCount;
 		
 	}
 	

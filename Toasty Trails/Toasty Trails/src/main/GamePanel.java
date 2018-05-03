@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import java.io.File;
 import java.util.HashMap;
 
+import entity.enemy.Enemy;
 import entity.player.Player;
 import entity.player.Player.Form;
 import gamestate.MenuState.GameMenu;
@@ -92,6 +93,10 @@ public class GamePanel extends Application{
 		toasty = new Player(Form.NORMAL, lvls[currentLvl].getInitialPlayerX(), lvls[currentLvl].getInitialPlayerY(), 
 				 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
+		for(Enemy e: lvls[currentLvl].getEnemies()) {
+			e.aI();
+		}
+		
 		cam = new PerspectiveCamera(true);
 		cam.setTranslateZ(-600);
 		cam.setFarClip(2000);
@@ -131,7 +136,7 @@ public class GamePanel extends Application{
             	
             	gc.clearRect(0, 0, lvls[currentLvl].getLevelWidth(), 3840);
                 double t = (currentNanoTime - startNanoTime) / 120000000.0;
-                
+        		
                 gc.drawImage(img, cam.getTranslateX() / 4 - 2000, cam.getTranslateY() / 4 - 1000);
                 
                 for(int row = 0; row < lvls[currentLvl].map.size(); row++) {
@@ -161,6 +166,16 @@ public class GamePanel extends Application{
 		movement();
         collision();
         toasty.render(t, gc);
+        
+        for(Enemy e: lvls[currentLvl].getEnemies()) {
+	        e.moveY();
+	        e.render(t, gc);
+        }
+        
+        for(Enemy e: lvls[currentLvl].getEnemies()) {
+	        e.render(t, gc);
+        }
+
         //movement2();
         //enemyCollision();
         //bknife.render(t, gc);
@@ -310,6 +325,63 @@ public class GamePanel extends Application{
             	
     		}
         	
+        	for(Enemy e: lvls[currentLvl].getEnemies()) {
+        	
+	        	if(toasty.colliding(e)) {
+					
+	        		if(e.isSolid()) {
+	        		
+						if(!toasty.onTopOf(e)) {
+							
+							//walking into left of block
+							if(toasty.rightBoundary() - 5 <= e.leftBoundary() + toasty.getXVelocity() + 3) {
+								
+								if(toasty.getXVelocity() > 0) {
+									toasty.setX(e.leftBoundary() - toasty.getWidth() - 1);
+								} else {
+									toasty.setX(e.leftBoundary() - toasty.getWidth() - 1);
+								}
+								
+								toasty.setXVelocity(0);
+							}
+							
+							//walking into right of block
+							if(toasty.leftBoundary() + 5 >= e.rightBoundary() + toasty.getXVelocity()) {
+								toasty.setX(e.rightBoundary());
+								toasty.setXVelocity(0);
+							}
+						
+						}
+						
+						//standing on top of block
+						if(toasty.bottomBoundary() <= e.topBoundary() + toasty.getYVelocity() + 3 &&
+		    					   toasty.rightBoundary() > e.leftBoundary() + 3 && 
+		    					   toasty.leftBoundary() < e.rightBoundary() - 3) {
+							toasty.setY(e.y() - toasty.getHeight());
+							toasty.setYVelocity(0);
+							toasty.standing = true;
+						} else {
+							toasty.standing = false;
+						}
+										
+						//jumping into bottom of block
+						if(toasty.topBoundary() >= e.bottomBoundary() + toasty.getYVelocity() &&
+						   toasty.rightBoundary() > e.leftBoundary() && 
+						   toasty.leftBoundary() < e.rightBoundary()) {
+							toasty.setY(e.y() + toasty.getHeight() - 12);
+							toasty.setYVelocity(toasty.getMass());
+						}
+						
+	        		}
+					
+	        		if(!e.attacking()) {
+	        			e.attack(toasty);
+	        		}
+					
+				}
+	        	
+        	}
+			
 		}
 		
 		if(toasty.leftBoundary() < 0) {
@@ -386,6 +458,7 @@ public class GamePanel extends Application{
 						 lvls[currentLvl].getInitialPlayerXVelocity(), lvls[currentLvl].getInitialPlayerYVelocity());
 		
 		lvls[currentLvl] = new IntroLevel();
+		lvls[currentLvl].initializeEnemies();
 		
 	}
 	
